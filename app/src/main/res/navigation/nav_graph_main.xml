@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/stockFragment">
+
+    <fragment
+        android:id="@+id/stockFragment"
+        android:name="com.example.journeytowealth.ui.stock.StockFragment"
+        android:label="Index" />
+
+    <fragment
+        android:id="@+id/portfolioFragment"
+        android:name="com.example.journeytowealth.ui.portfolio.PortfolioFragment"
+        android:label="PortFolio" />
+
+    <fragment
+        android:id="@+id/checklist"
+        android:name="com.example.journeytowealth.ui.checklist.CheckListFragment"
+        android:label="CheckList" />
+
+</navigation>

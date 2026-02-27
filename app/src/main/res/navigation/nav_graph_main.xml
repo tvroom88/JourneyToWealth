@@ -2,20 +2,20 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/navigation_index">
+    app:startDestination="@id/navigation_stock">
 
     <fragment
-        android:id="@+id/navigation_index"
+        android:id="@+id/navigation_stock"
         android:name="com.example.journeytowealth.ui.stock.StockFragment"
         android:label="Index" />
 
     <fragment
-        android:id="@+id/navigation_stock"
+        android:id="@+id/navigation_portfolio"
         android:name="com.example.journeytowealth.ui.portfolio.PortfolioFragment"
         android:label="PortFolio" />
 
     <fragment
-        android:id="@+id/navigation_portfolio"
+        android:id="@+id/navigation_checklist"
         android:name="com.example.journeytowealth.ui.checklist.CheckListFragment"
         android:label="CheckList" />
 

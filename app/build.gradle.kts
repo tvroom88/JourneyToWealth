@@ -35,7 +35,7 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    
+
     buildFeatures {
         viewBinding = true
     }
@@ -54,4 +54,14 @@ dependencies {
     // Bottom Navigation
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+
+    // okhttp3
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+    implementation(libs.okhttp.urlconnection)
+
+    // POI core
+    implementation(libs.poi)
+    implementation(libs.apache.poi.ooxml) // POI for XLSX
+
 }

@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.journeytowealth"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -50,6 +50,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation("com.google.android.material:material:1.11.0")
 
     // Bottom Navigation
     implementation(libs.androidx.navigation.fragment.ktx)
@@ -63,5 +64,13 @@ dependencies {
     // POI core
     implementation(libs.poi)
     implementation(libs.apache.poi.ooxml) // POI for XLSX
+
+
+    // Google Login
+    implementation(libs.androidx.credentials)
+    implementation(libs.play.services.auth)
+    implementation(libs.googleid)
+
+
 
 }

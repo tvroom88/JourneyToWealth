@@ -49,6 +49,18 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar_main">
 
         <TextView
+            android:id="@+id/tv_login_toolbar_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_textview_border"
+            android:gravity="center"
+            android:minWidth="100dp"
+            android:padding="10dp"
+            android:text="Login"
+            android:textColor="@color/black" />
+
+        <TextView
             android:id="@+id/tv_setting_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,6 +68,7 @@
             android:background="@drawable/bg_textview_border"
             android:gravity="center"
             android:minWidth="100dp"
+            android:padding="10dp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:text="세팅"
@@ -69,6 +82,7 @@
             android:background="@drawable/bg_textview_border"
             android:gravity="center"
             android:minWidth="100dp"
+            android:padding="10dp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:text="대기중1"
@@ -82,9 +96,43 @@
             android:background="@drawable/bg_textview_border"
             android:gravity="center"
             android:minWidth="100dp"
+            android:padding="10dp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:text="대기중2"
             android:textColor="@color/black" />
     </LinearLayout>
+
+    <!-- 로딩 -->
+    <LinearLayout
+        android:id="@+id/ll_loading_container_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progressBarMaterial"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            app:indeterminateAnimationType="contiguous"
+            app:indicatorColor="@color/loading_main"
+            app:indicatorSize="60dp"
+            app:trackColor="@color/white"
+            app:trackThickness="6dp" />
+
+        <TextView
+            android:id="@+id/tv_loading_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Google Login Loading" />
+
+    </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

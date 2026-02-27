@@ -13,6 +13,9 @@ navigationFragmentKtx = "2.9.7"
 okhttp = "4.12.0"
 poi = "5.2.3"
 poiOoxml = "5.2.3"
+credentials = "1.5.0"
+googleid = "1.2.0"
+playServicesAuth = "21.5.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -30,6 +33,10 @@ okhttp-urlconnection = { module = "com.squareup.okhttp3:okhttp-urlconnection", v
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 poi = { module = "org.apache.poi:poi", version.ref = "poi" }
 apache-poi-ooxml = { module = "org.apache.poi:poi-ooxml", version.ref = "poiOoxml" }
+androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
+play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
+googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

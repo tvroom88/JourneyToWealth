@@ -15,9 +15,7 @@ class ExcelRemoteDataSource {
         withContext(Dispatchers.IO) {
             try {
                 val request = Request.Builder()
-                    .url(
-                        "https://docs.google.com/spreadsheets/d/1L9P6UGtbDbwWvfWdlPkOaDcJlHc2HgQImUv51C3mbv0/export?format=xlsx"
-                    )
+                    .url(ExcelApiConstants.DOWNLOAD_PATH)
                     .addHeader("Authorization", "Bearer $accessToken")
                     .build()
 

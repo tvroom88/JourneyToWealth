@@ -40,7 +40,7 @@
 
     <!-- Toolbar 메뉴 -->
     <LinearLayout
-        android:id="@+id/menu1_main"
+        android:id="@+id/menu_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -61,6 +61,20 @@
             android:textColor="@color/black" />
 
         <TextView
+            android:id="@+id/tv_loading_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_textview_border"
+            android:gravity="center"
+            android:minWidth="100dp"
+            android:padding="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:text="데이터 로딩"
+            android:textColor="@color/black" />
+
+        <TextView
             android:id="@+id/tv_setting_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,22 +85,9 @@
             android:padding="10dp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
-            android:text="세팅"
+            android:text="아직없음"
             android:textColor="@color/black" />
 
-        <TextView
-            android:id="@+id/tv_waiting1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/bg_textview_border"
-            android:gravity="center"
-            android:minWidth="100dp"
-            android:padding="10dp"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:text="대기중1"
-            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/tv_waiting2"
@@ -99,7 +100,7 @@
             android:padding="10dp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
-            android:text="대기중2"
+            android:text="아직없음"
             android:textColor="@color/black" />
     </LinearLayout>
 

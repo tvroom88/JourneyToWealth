@@ -22,13 +22,24 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ * Design Pattern : MVVM Pattern
+ * click ui(button) -> request data -> get data -> change ui
+ *
+ * Todo:
+ * (1) 원격으로 가져오는 내용 정리 완료하기
+ * (2) Room DB 추가하기
+ * (3) Room DB에 대이터 넣기
+ * (4) RecyclerView로 표처럼 보여주기
+ */
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 
-    private val viewModel: MainViewModel by viewModels {
+    private val mainViewModel: MainViewModel by viewModels {
         MainViewModelFactory(MainRepository(ExcelRemoteDataSource()))
     }
     private var currentToolbarStatus = false
@@ -44,8 +55,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setupToolbar()
-        setupBottomNavigation()
+        setupToolbar() // toolbar 세팅
+        setupMainFragmentContainer() // Fragment Container 부분 세팅
+        setupBottomNavigation() // bottomNavigation 세팅
         observeExcelData(this)
         setupGoogleLogin(this)
     }
@@ -54,6 +66,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private fun setupToolbar() {
         binding.toolbarMain.ivMenuToolbar.setOnClickListener {
             toggleToolbarMenu()
+        }
+
+        val tempAccount = GoogleSignIn.getLastSignedInAccount(this)
+        if (tempAccount != null) {
+            binding.tvLoginToolbarMain.text = "Logout"
         }
 
         binding.tvLoginToolbarMain.setOnClickListener {
@@ -65,11 +82,27 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 googleLogout()
             }
         }
+
+        binding.tvLoadingData.setOnClickListener {
+            mainViewModel.loadExcel(googleToken)
+            if (googleToken == null) {
+                Log.d("MainActivity", "googleToken이 없습니다.")
+            }
+        }
     }
 
     private fun toggleToolbarMenu() {
         currentToolbarStatus = !currentToolbarStatus
-        binding.menu1Main.visibility = if (currentToolbarStatus) View.VISIBLE else View.GONE
+        binding.menuMain.visibility = if (currentToolbarStatus) View.VISIBLE else View.GONE
+    }
+
+    /** MainFragment 설정 */
+    private fun setupMainFragmentContainer() {
+        binding.navHost.setOnClickListener {
+            if (currentToolbarStatus) {
+                toggleToolbarMenu()
+            }
+        }
     }
 
     /** BottomNavigation 세팅 */
@@ -82,7 +115,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     /** ViewModel 데이터 관찰 */
     private fun observeExcelData(context: Context) {
         lifecycleScope.launchWhenStarted {
-            viewModel.excelData.collect { result ->
+            mainViewModel.excelData.collect { result ->
                 when (result) {
                     is HttpResult.Success -> {
                         Log.d("MainActivity", "ExcelData loaded successfully")
@@ -113,6 +146,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             .build()
 
         googleSignInClient = GoogleSignIn.getClient(context, gso)
+
+        // 로그인이 되어있다면
+        val account = GoogleSignIn.getLastSignedInAccount(this)
+        account?.account?.let { googleAccount ->
+            CoroutineScope(Dispatchers.IO).launch {
+                val scope = "oauth2:https://www.googleapis.com/auth/drive.readonly"
+
+                googleToken = GoogleAuthUtil.getToken(
+                    context,
+                    googleAccount,
+                    scope
+                )
+            }
+        }
     }
 
     private fun googleLogin() {

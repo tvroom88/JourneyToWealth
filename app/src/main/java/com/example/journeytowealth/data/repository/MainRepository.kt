@@ -1,5 +1,6 @@
 package com.example.journeytowealth.data.repository
 
+import android.util.Log
 import com.example.journeytowealth.core.result.HttpResult
 import com.example.journeytowealth.core.utils.ExcelParser
 import com.example.journeytowealth.data.local.ExcelData
@@ -14,12 +15,14 @@ class MainRepository(private val excelRemoteDataSource: ExcelRemoteDataSource) {
         return when (val result = excelRemoteDataSource.downloadGoogleSheet(accessToken)) {
             is HttpResult.Success -> {
                 try {
+                    Log.d("datadata", "data : ${result.data.size}")
                     val excelData = ExcelParser.parse(result.data)
                     HttpResult.Success(excelData)
                 } catch (e: Exception) {
                     HttpResult.Error(e, "Failed to parse Excel")
                 }
             }
+
             is HttpResult.Error -> HttpResult.Error(result.exception, result.message)
             else -> HttpResult.Loading  // Loading 처리
         }

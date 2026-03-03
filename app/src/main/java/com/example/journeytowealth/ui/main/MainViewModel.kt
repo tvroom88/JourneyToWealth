@@ -16,11 +16,13 @@ class MainViewModel(private val repository: MainRepository) : ViewModel() {
     val excelData: StateFlow<HttpResult<ExcelData>> = _excelData
 
     // Excel 다운로드 실행
-    fun loadExcel(accessToken: String) {
-        viewModelScope.launch {
-            _excelData.value = HttpResult.Loading
-            val result = repository.fetchExcelData(accessToken)
-            _excelData.value = result
+    fun loadExcel(accessToken: String?) {
+        accessToken?.let {
+            viewModelScope.launch {
+                _excelData.value = HttpResult.Loading
+                val result = repository.fetchExcelData(accessToken)
+                _excelData.value = result
+            }
         }
     }
 }

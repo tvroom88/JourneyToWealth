@@ -16,6 +16,7 @@ poiOoxml = "5.2.3"
 credentials = "1.5.0"
 googleid = "1.2.0"
 playServicesAuth = "21.5.1"
+ksp = "2.0.21-1.0.25"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -41,4 +42,4 @@ googleid = { module = "com.google.android.libraries.identity.googleid:googleid",
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

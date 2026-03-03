@@ -13,6 +13,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.journeytowealth.R
 import com.example.journeytowealth.core.base.BaseActivity
 import com.example.journeytowealth.core.result.HttpResult
+import com.example.journeytowealth.data.local.MarketIndexLocalDataSource
+import com.example.journeytowealth.data.local.StockLocalDataSource
+import com.example.journeytowealth.data.local.database.AppDatabase
 import com.example.journeytowealth.data.remote.ExcelRemoteDataSource
 import com.example.journeytowealth.data.repository.MainRepository
 import com.example.journeytowealth.databinding.ActivityMainBinding
@@ -39,8 +42,10 @@ import kotlinx.coroutines.withContext
  */
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 
+
+    private val mainRepository by lazy { createRepository() }
     private val mainViewModel: MainViewModel by viewModels {
-        MainViewModelFactory(MainRepository(ExcelRemoteDataSource()))
+        MainViewModelFactory(mainRepository)
     }
     private var currentToolbarStatus = false
 
@@ -60,6 +65,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         setupBottomNavigation() // bottomNavigation 세팅
         observeExcelData(this)
         setupGoogleLogin(this)
+
+
+        // DB Flow 구독
+        lifecycleScope.launchWhenStarted {
+            mainRepository.observeDb().collect { dbData ->
+                // UI 업데이트
+                Log.d("DB_DATA", "Stocks: ${dbData.stocks.size}, Indexes: ${dbData.indexes.size}")
+            }
+        }
     }
 
     /** Toolbar UI & Action 설정 */
@@ -232,5 +246,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private fun showLoading(show: Boolean, message: String = "로딩중") {
         binding.llLoadingContainerMain.visibility = if (show) View.VISIBLE else View.GONE
         binding.tvLoadingText.text = message
+    }
+
+    private fun createRepository(): MainRepository {
+
+        val db = AppDatabase.getInstance(applicationContext)
+        return MainRepository(
+            excelRemoteDataSource = ExcelRemoteDataSource(),
+            stockLocalDataSource = StockLocalDataSource(db.stockDao()),
+            marketIndexLocalDataSource =
+                MarketIndexLocalDataSource(db.marketIndexDao())
+        )
     }
 }

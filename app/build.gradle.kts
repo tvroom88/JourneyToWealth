@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -71,6 +72,10 @@ dependencies {
     implementation(libs.play.services.auth)
     implementation(libs.googleid)
 
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1") // Kotlin의 경우 kapt 사용
 
+    implementation("com.google.code.gson:gson:2.10.1")
 
 }

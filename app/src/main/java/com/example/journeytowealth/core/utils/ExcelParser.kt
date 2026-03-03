@@ -1,10 +1,10 @@
 package com.example.journeytowealth.core.utils
 
 import android.util.Log
-import com.example.journeytowealth.data.local.ExcelData
-import com.example.journeytowealth.data.local.index.MarketIndexDto
-import com.example.journeytowealth.data.local.portfolio.PortfolioDto
-import com.example.journeytowealth.data.local.stock.StockDto
+import com.example.journeytowealth.data.model.ExcelData
+import com.example.journeytowealth.data.remote.dto.MarketIndexDto
+import com.example.journeytowealth.data.remote.dto.PortfolioDto
+import com.example.journeytowealth.data.remote.dto.StockDto
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 object ExcelParser {
@@ -26,6 +26,7 @@ object ExcelParser {
             when (type) {
                 "INDEX" -> indexes.add(
                     MarketIndexDto(
+                        category = row.getCell(0).stringCellValue,
                         name = row.getCell(2).stringCellValue,
                         ticker = row.getCell(4).stringCellValue,
                         currentValue = row.getCell(5).numericCellValue.toFloat(),
@@ -34,16 +35,19 @@ object ExcelParser {
                     )
                 )
 
-                "STOCK" -> Log.d("testtest", "type : $type")
-//                    stocks.add(
-//                    StockDto(
-//                        ticker = row.getCell(1).stringCellValue,
-//                        name = row.getCell(2).stringCellValue,
-//                        currentValue = row.getCell(3).numericCellValue.toFloat(),
-//                        maxValue = row.getCell(4).numericCellValue.toFloat(),
-//                        percentBtwMaxAndCur = row.getCell(5).numericCellValue.toFloat()
-//                    )
-//                )
+                "STOCK" -> stocks.add(
+                    StockDto(
+                        category = row.getCell(0).stringCellValue,
+                        name = row.getCell(2).stringCellValue,
+                        ticker = row.getCell(3).stringCellValue,
+                        sector = row.getCell(4).stringCellValue,
+                        currentValue = row.getCell(5).numericCellValue.toFloat(),
+                        allTimeHigh = row.getCell(6).numericCellValue.toFloat(),
+                        percentBtwMaxAndCur = row.getCell(7).numericCellValue.toFloat(),
+                        per = null,
+                        eps = null
+                    )
+                )
 
                 "PORTFOLIO" -> Log.d("testtest", "type : $type")
 //                    portfolios.add(

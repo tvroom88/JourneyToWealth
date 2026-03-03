@@ -1,5 +1,6 @@
 package com.example.journeytowealth.core.base
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.activity.enableEdgeToEdge
@@ -12,16 +13,17 @@ abstract class BaseActivity<VB : ViewBinding>(
     private val inflate: (LayoutInflater) -> VB
 ) : AppCompatActivity() {
 
+    var mContext: Context? = null
     protected val binding: VB by lazy {
         inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         enableEdgeToEdge()
         setContentView(binding.root)
         setupInsets()
+        mContext = this
     }
 
     private fun setupInsets() {

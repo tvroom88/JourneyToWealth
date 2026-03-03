@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -11,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.journeytowealth"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -35,7 +36,7 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    
+
     buildFeatures {
         viewBinding = true
     }
@@ -50,8 +51,31 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation("com.google.android.material:material:1.11.0")
 
     // Bottom Navigation
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+
+    // okhttp3
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+    implementation(libs.okhttp.urlconnection)
+
+    // POI core
+    implementation(libs.poi)
+    implementation(libs.apache.poi.ooxml) // POI for XLSX
+
+
+    // Google Login
+    implementation(libs.androidx.credentials)
+    implementation(libs.play.services.auth)
+    implementation(libs.googleid)
+
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1") // Kotlin의 경우 kapt 사용
+
+    implementation("com.google.code.gson:gson:2.10.1")
+
 }

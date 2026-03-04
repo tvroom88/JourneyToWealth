@@ -34,6 +34,9 @@ import kotlinx.coroutines.withContext
  * Design Pattern : MVVM Pattern
  * click ui(button) -> request data -> get data -> change ui
  *
+ * TableView
+ * https://github.com/evrencoskun/TableView
+ *
  * Todo:
  * (1) 원격으로 가져오는 내용 정리 완료하기
  * (2) Room DB 추가하기
@@ -65,15 +68,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         setupBottomNavigation() // bottomNavigation 세팅
         observeExcelData(this)
         setupGoogleLogin(this)
-
-
-        // DB Flow 구독
-        lifecycleScope.launchWhenStarted {
-            mainRepository.observeDb().collect { dbData ->
-                // UI 업데이트
-                Log.d("DB_DATA", "Stocks: ${dbData.stocks.size}, Indexes: ${dbData.indexes.size}")
-            }
-        }
     }
 
     /** Toolbar UI & Action 설정 */

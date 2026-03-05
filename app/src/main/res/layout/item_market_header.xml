@@ -9,25 +9,31 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@drawable/bg_table_cell"
+        android:ellipsize="end"
         android:gravity="center"
+        android:maxLines="1"
         android:text="지수"
         android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@drawable/bg_table_cell"
-        android:gravity="center"
-        android:text="티커"
-        android:textStyle="bold" />
+<!--    <TextView-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_weight="1"-->
+<!--        android:background="@drawable/bg_table_cell"-->
+<!--        android:ellipsize="end"-->
+<!--        android:gravity="center"-->
+<!--        android:maxLines="1"-->
+<!--        android:text="티커"-->
+<!--        android:textStyle="bold" />-->
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@drawable/bg_table_cell"
+        android:ellipsize="end"
         android:gravity="center"
+        android:maxLines="1"
         android:text="현재가격"
         android:textStyle="bold" />
 
@@ -36,7 +42,9 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@drawable/bg_table_cell"
+        android:ellipsize="end"
         android:gravity="center"
+        android:maxLines="1"
         android:text="전고점"
         android:textStyle="bold" />
 
@@ -45,7 +53,9 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@drawable/bg_table_cell"
+        android:ellipsize="end"
         android:gravity="center"
+        android:maxLines="1"
         android:text="하락율"
         android:textStyle="bold" />
 

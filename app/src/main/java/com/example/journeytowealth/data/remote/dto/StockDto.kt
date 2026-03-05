@@ -7,7 +7,7 @@ data class StockDto(
     val sector: String,
     val currentValue: Float,    // 현재 값
     val allTimeHigh: Float,     // 전고점
-    val percentBtwMaxAndCur: Float, // 등락률
+    val drawdownPercent: Float, // 등락률
     val per: Float?,
     val eps: Float?
 )

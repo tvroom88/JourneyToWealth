@@ -21,25 +21,38 @@ class StockFragment :
     private val mainRepository by lazy { createRepository() }
 
     private val marketIndexAdapter by lazy { MarketIndexAdapter() }
+    private val stockAdapter by lazy { StockAdapter() }
 
-    private lateinit var marketIndexEntity: MarketIndexEntity
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.recyclerIndex.layoutManager = LinearLayoutManager(mContext)
+        binding.recyclerIndex.adapter = marketIndexAdapter
+
         binding.recyclerStock.layoutManager = LinearLayoutManager(mContext)
-        binding.recyclerStock.adapter = marketIndexAdapter
+        binding.recyclerStock.adapter = stockAdapter
+
+        binding.btnToggle.setOnClickListener {
+            val showIndex = binding.indexContainer.visibility == View.VISIBLE
+
+            if (showIndex) {
+                binding.indexContainer.visibility = View.GONE
+                binding.stockContainer.visibility = View.VISIBLE
+                binding.btnToggle.text = "주식"
+            } else {
+                binding.indexContainer.visibility = View.VISIBLE
+                binding.stockContainer.visibility = View.GONE
+                binding.btnToggle.text = "지수"
+            }
+        }
 
         // DB Flow 구독
         lifecycleScope.launchWhenStarted {
             mainRepository.observeDb().collect { dbData ->
                 Log.d("DB_DATA", "Stocks: ${dbData.stocks.size}, Indexes: ${dbData.indexes.size}")
                 marketIndexAdapter.submitList(dbData.indexes)
+                stockAdapter.submitList(dbData.stocks)
             }
         }
 

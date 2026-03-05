@@ -34,6 +34,7 @@ fun StockDto.toEntity(): StockEntity =
         sector = sector,
         currentValue = currentValue.toDouble(),
         allTimeHigh = allTimeHigh.toDouble(),
+        drawdownPercent = drawdownPercent.toDouble(),
         per = per?.toDouble(),
         eps = eps?.toDouble()
     )

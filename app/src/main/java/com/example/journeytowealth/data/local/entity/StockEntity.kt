@@ -15,10 +15,8 @@ data class StockEntity(
 
     val currentValue: Double,
     val allTimeHigh: Double,
+    val drawdownPercent: Double,
 
     val per: Double?,
     val eps: Double?
-) {
-    val percentBtwMaxAndCur: Double
-        get() = (currentValue - allTimeHigh) / allTimeHigh * 100
-}
+)

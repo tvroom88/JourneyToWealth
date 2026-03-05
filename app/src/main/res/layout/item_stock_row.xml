@@ -14,21 +14,21 @@
         android:gravity="center"
         android:maxLines="1" />
 
-    <TextView
-        android:id="@+id/tvTicker"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/bg_table_cell"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:maxLines="1"
-        android:textStyle="bold" />
+<!--    <TextView-->
+<!--        android:id="@+id/tvTicker"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_weight="1"-->
+<!--        android:background="@drawable/bg_table_cell"-->
+<!--        android:ellipsize="end"-->
+<!--        android:gravity="center"-->
+<!--        android:maxLines="1"-->
+<!--        android:textStyle="bold" />-->
 
     <TextView
         android:id="@+id/tvCurrent"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@drawable/bg_table_cell"
         android:ellipsize="end"
@@ -38,7 +38,7 @@
     <TextView
         android:id="@+id/tvHigh"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@drawable/bg_table_cell"
         android:ellipsize="end"
@@ -48,8 +48,9 @@
     <TextView
         android:id="@+id/tvDrawdown"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
+        android:textSize="14dp"
         android:background="@drawable/bg_table_cell"
         android:ellipsize="end"
         android:gravity="center"

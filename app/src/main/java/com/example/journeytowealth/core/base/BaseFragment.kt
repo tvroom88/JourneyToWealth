@@ -1,6 +1,7 @@
 package com.example.journeytowealth.core.base
 
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,16 @@ abstract class BaseFragment<VB : ViewBinding>(
     protected val binding: VB
         get() = _binding
             ?: throw IllegalStateException("ViewBinding is only valid between onCreateView and onDestroyView")
+
+
+    lateinit var mContext: Context
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        this.mContext = context
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -31,7 +31,7 @@ object ExcelParser {
                         ticker = row.getCell(4).stringCellValue,
                         currentValue = row.getCell(5).numericCellValue.toFloat(),
                         allTimeHigh = row.getCell(6).numericCellValue.toFloat(),
-                        drawdownPercent = row.getCell(7).numericCellValue.toFloat(),
+                        drawdownPercent = row.getCell(7).numericCellValue.toFloat() * 100,
                     )
                 )
 
@@ -43,7 +43,7 @@ object ExcelParser {
                         sector = row.getCell(4).stringCellValue,
                         currentValue = row.getCell(5).numericCellValue.toFloat(),
                         allTimeHigh = row.getCell(6).numericCellValue.toFloat(),
-                        percentBtwMaxAndCur = row.getCell(7).numericCellValue.toFloat(),
+                        percentBtwMaxAndCur = row.getCell(7).numericCellValue.toFloat() * 100,
                         per = null,
                         eps = null
                     )

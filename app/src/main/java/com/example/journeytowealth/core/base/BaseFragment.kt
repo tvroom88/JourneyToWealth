@@ -8,7 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.example.journeytowealth.MyApplication
 import com.example.journeytowealth.R
+import com.example.journeytowealth.data.local.MarketIndexLocalDataSource
+import com.example.journeytowealth.data.local.PortfolioLocalDataSource
+import com.example.journeytowealth.data.local.StockLocalDataSource
+import com.example.journeytowealth.data.local.database.AppDatabase
+import com.example.journeytowealth.data.remote.ExcelRemoteDataSource
+import com.example.journeytowealth.data.repository.MainRepository
 
 abstract class BaseFragment<VB : ViewBinding>(
     private val inflate: (LayoutInflater, ViewGroup?, Boolean) -> VB
@@ -45,5 +52,17 @@ abstract class BaseFragment<VB : ViewBinding>(
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+
+    fun createRepository(): MainRepository {
+        val db = AppDatabase.getInstance(MyApplication.appContext)
+        return MainRepository(
+            excelRemoteDataSource = ExcelRemoteDataSource(),
+            stockLocalDataSource = StockLocalDataSource(db.stockDao()),
+            marketIndexLocalDataSource =
+                MarketIndexLocalDataSource(db.marketIndexDao()),
+            portfolioLocalDataSource = PortfolioLocalDataSource(db.portfolioDao())
+        )
     }
 }

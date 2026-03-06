@@ -62,11 +62,11 @@ object ExcelParser {
                         PortfolioDto(
                             category = getString(row.getCell(1)),
                             etfName = getString(row.getCell(2)),
-                            targetWeight = getFloat(row.getCell(3)),
-                            currentWeight = getFloat(row.getCell(4)),
-                            deviation = getFloat(row.getCell(5)),
-                            tradeQuantity = 1,
-                            holdingQuantity = 2,
+                            targetWeight = getFloat(row.getCell(3)) * 100,
+                            currentWeight = getFloat(row.getCell(4)) * 100,
+                            deviation = getFloat(row.getCell(5)) * 100,
+                            tradeQuantity = getInt(row.getCell(6)),
+                            holdingQuantity = getInt(row.getCell(7)),
                             currentPrice = 100L,
                             evaluationAmount = 100
                         )
@@ -148,6 +148,41 @@ object ExcelParser {
         } catch (e: Exception) {
             Log.d("ExcelParser", "Float parse error : ${e.message}")
             0f
+        }
+    }
+
+    private fun getInt(cell: Cell?): Int {
+
+        if (cell == null) return 0
+
+        return try {
+
+            when (cell.cellType) {
+
+                CellType.NUMERIC ->
+                    cell.numericCellValue.toInt()
+
+                CellType.STRING ->
+                    cell.stringCellValue.trim().toIntOrNull() ?: 0
+
+                CellType.FORMULA ->
+                    when (cell.cachedFormulaResultType) {
+
+                        CellType.NUMERIC ->
+                            cell.numericCellValue.toInt()
+
+                        CellType.STRING ->
+                            cell.stringCellValue.trim().toIntOrNull() ?: 0
+
+                        else -> 0
+                    }
+
+                else -> 0
+            }
+
+        } catch (e: Exception) {
+            Log.d("ExcelParser", "Int parse error : ${e.message}")
+            0
         }
     }
 }

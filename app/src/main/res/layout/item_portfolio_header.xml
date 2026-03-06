@@ -12,7 +12,34 @@
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
-        android:text="지수"
+        android:textSize="10sp"
+        android:text="ETF"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/bg_table_cell"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:textSize="10sp"
+
+        android:maxLines="1"
+        android:text="실제비중"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/bg_table_cell"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:textSize="10sp"
+
+        android:maxLines="1"
+        android:text="이격률"
         android:textStyle="bold" />
 
     <TextView
@@ -23,7 +50,8 @@
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
-        android:text="현재가격"
+        android:textSize="10sp"
+        android:text="매매수량"
         android:textStyle="bold" />
 
     <TextView
@@ -34,7 +62,8 @@
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
-        android:text="전고점"
+        android:textSize="10sp"
+        android:text="보유수량"
         android:textStyle="bold" />
 
     <TextView
@@ -44,8 +73,9 @@
         android:background="@drawable/bg_table_cell"
         android:ellipsize="end"
         android:gravity="center"
+        android:textSize="10sp"
         android:maxLines="1"
-        android:text="하락율"
+        android:text="현재가"
         android:textStyle="bold" />
 
 </LinearLayout>

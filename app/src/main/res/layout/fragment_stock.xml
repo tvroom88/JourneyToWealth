@@ -50,8 +50,7 @@
 
         <include
             android:id="@+id/index_header"
-            layout="@layout/item_market_header"
-            android:layout_marginTop="20dp" />
+            layout="@layout/item_market_header" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_index"
@@ -75,8 +74,7 @@
 
         <include
             android:id="@+id/stock_header"
-            layout="@layout/item_market_header"
-            android:layout_marginTop="20dp" />
+            layout="@layout/item_market_header"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_stock"

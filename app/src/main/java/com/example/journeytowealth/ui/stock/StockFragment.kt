@@ -23,7 +23,6 @@ class StockFragment :
     BaseFragment<FragmentStockBinding>(FragmentStockBinding::inflate) {
 
     private val mainRepository by lazy { createRepository() }
-
     private val marketIndexAdapter by lazy { MarketIndexAdapter() }
     private val stockAdapter by lazy { StockAdapter() }
 
@@ -87,18 +86,6 @@ class StockFragment :
             }
         }
 
-    }
-
-    private fun createRepository(): MainRepository {
-
-        val db = AppDatabase.getInstance(MyApplication.appContext)
-        return MainRepository(
-            excelRemoteDataSource = ExcelRemoteDataSource(),
-            stockLocalDataSource = StockLocalDataSource(db.stockDao()),
-            marketIndexLocalDataSource =
-                MarketIndexLocalDataSource(db.marketIndexDao()),
-            portfolioLocalDataSource = PortfolioLocalDataSource(db.portfolioDao())
-        )
     }
 
     companion object {

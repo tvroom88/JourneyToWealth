@@ -57,8 +57,8 @@ class MainRepository(
             marketIndexLocalDataSource.getMarketIndexes(),
             portfolioLocalDataSource.getPortfolios()
         ) { stocks, indexes, portfolio ->
-            for(index in indexes){
-                Log.d("index", "index : $index")
+            for(portfoilo in portfolio){
+                Log.d("portfoilo", "portfoilo : $portfoilo")
             }
             DbData(indexes, stocks, portfolio)
         }

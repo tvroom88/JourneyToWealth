@@ -5,6 +5,18 @@
     android:orientation="horizontal">
 
     <TextView
+        android:id="@+id/tvETF"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/bg_table_cell"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:textSize="10sp"
+        android:maxLines="1" />
+
+    <TextView
+        android:id="@+id/tvCurrentWeight"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -12,40 +24,51 @@
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
-        android:text="지수"
+        android:textSize="10sp"
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/tvWeightDeviation"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@drawable/bg_table_cell"
         android:ellipsize="end"
         android:gravity="center"
-        android:maxLines="1"
-        android:text="현재가격"
-        android:textStyle="bold" />
+        android:textSize="10sp"
+        android:maxLines="1" />
 
     <TextView
+        android:id="@+id/tvTradeQuantity"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@drawable/bg_table_cell"
         android:ellipsize="end"
         android:gravity="center"
-        android:maxLines="1"
-        android:text="전고점"
-        android:textStyle="bold" />
+        android:textSize="10sp"
+        android:maxLines="1" />
 
     <TextView
+        android:id="@+id/tvHoldingQuantity"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@drawable/bg_table_cell"
         android:ellipsize="end"
         android:gravity="center"
-        android:maxLines="1"
-        android:text="하락율"
-        android:textStyle="bold" />
+        android:textSize="10sp"
+        android:maxLines="1" />
+
+    <TextView
+        android:id="@+id/tvCurrentPrice"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/bg_table_cell"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:textSize="10sp"
+        android:maxLines="1" />
 
 </LinearLayout>

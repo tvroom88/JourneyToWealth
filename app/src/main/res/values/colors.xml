@@ -5,6 +5,5 @@
 
     <!--  MainActivity   -->
     <color name="bg_main">#FFF1F8F4</color> <!--  화면 배경   -->
-    <color name="loading_main">#FF6200EE</color>  <!--  로딩 바 -->
-
+    <color name="loading_main">#4F8CFF</color>  <!--  로딩 바 -->
 </resources>

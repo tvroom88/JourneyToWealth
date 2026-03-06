@@ -22,7 +22,9 @@ object ExcelParser {
         for (row in sheet.drop(1)) {
             val type = row.getCell(0).stringCellValue
 
-            Log.d("testtest", "type : $type")
+//            if (type == "PORTFOLIO")
+//                Log.d("CheckCheck", "${row.getCell(2)}")
+
             when (type) {
                 "INDEX" -> indexes.add(
                     MarketIndexDto(
@@ -49,14 +51,32 @@ object ExcelParser {
                     )
                 )
 
-                "PORTFOLIO" -> Log.d("testtest", "type : $type")
-//                    portfolios.add(
+
+//                "PORTFOLIO" -> portfolios.add(
 //                    PortfolioDto(
-//                        name = row.getCell(2).stringCellValue,
+//                        category = row.getCell(1).stringCellValue,
+//                        etfName = row.getCell(2).stringCellValue,
+//                        targetWeight = row.getCell(3).stringCellValue.toFloat(),
+//                        currentWeight = row.getCell(4).stringCellValue.toFloat(),
+//                        deviation = row.getCell(5).stringCellValue.toFloat(),
+//                        tradeQuantity = 1,
+//                        holdingQuantity = 2,
+//                        currentPrice = 100L,
+//                        evaluationAmount = 100
 //                    )
 //                )
             }
         }
+
+//        val category: String,          // 표시 (ETF 이름)
+//        val etfName: String,        // ETF 코드
+//        val targetWeight: Float,   // 목표 비중 (%)
+//        val currentWeight: Float,  // 실제 비중 (%)
+//        val deviation: Float,      // 이격율 (%)
+//        val tradeQuantity: Int,    // 매매 수량
+//        val holdingQuantity: Int,  // 보유 수량
+//        val currentPrice: Long,    // 현재가
+//        val evaluationAmount: Long // 평가액
 
         workbook.close()
         return ExcelData(indexes, stocks, portfolios)

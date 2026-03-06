@@ -1,18 +1,19 @@
 package com.example.journeytowealth.data.repository
 
-import android.util.Log
 import com.example.journeytowealth.core.result.HttpResult
+import com.example.journeytowealth.ui.state.UiState
 import com.example.journeytowealth.core.utils.ExcelParser
 import com.example.journeytowealth.data.local.MarketIndexLocalDataSource
 import com.example.journeytowealth.data.local.StockLocalDataSource
-import com.example.journeytowealth.data.local.entity.MarketIndexEntity
-import com.example.journeytowealth.data.local.entity.StockEntity
 import com.example.journeytowealth.data.mapper.toEntity
 import com.example.journeytowealth.data.model.DbData
 import com.example.journeytowealth.data.model.ExcelData
 import com.example.journeytowealth.data.remote.ExcelRemoteDataSource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 
 class MainRepository(
     private val excelRemoteDataSource: ExcelRemoteDataSource,
@@ -27,9 +28,8 @@ class MainRepository(
         return excelRemoteDataSource.downloadGoogleSheet(accessToken)
     }
 
-    suspend fun insertExcelToDb(excelBytes: ByteArray): HttpResult<Unit> {
+    suspend fun insertExcelToDb(excelData: ExcelData): Result<Unit> {
         return try {
-            val excelData = ExcelParser.parse(excelBytes)
 
             val stockEntities = excelData.stocks.map { it.toEntity() }
             val marketIndexEntities = excelData.indexes.map { it.toEntity() }
@@ -38,30 +38,47 @@ class MainRepository(
             stockLocalDataSource.insertStocks(stockEntities)
             marketIndexLocalDataSource.insertMarketIndexes(marketIndexEntities)
 
-            HttpResult.Success(Unit)
+            Result.success(Unit)
         } catch (e: Exception) {
-            HttpResult.Error(e, "Failed to parse or save Excel")
+            Result.failure(e)
         }
     }
 
-    // DB Flow
-    fun observeDb(): Flow<DbData> = combine(
-        stockLocalDataSource.getStocks(),
-        marketIndexLocalDataSource.getMarketIndexes()
-    ) { stocks, indexes ->
-        DbData(
-            stocks = stocks,
-            indexes = indexes
-        )
-    }
+    // DB Flow -> Fragment에서 구독해서 Db 내용을 가져간다.
+    fun observeDb(): Flow<UiState<DbData>> =
+        combine(
+            stockLocalDataSource.getStocks(),
+            marketIndexLocalDataSource.getMarketIndexes()
+        ) { stocks, indexes ->
+            DbData(indexes, stocks)
+        }
+            .map<DbData, UiState<DbData>> {
+                UiState.Success(it)
+            }
+            .onStart {
+                emit(UiState.Loading)
+            }
+            .catch { e ->
+                emit(UiState.Error(e.message ?: "Unknown error", e))
+            }
 
 
     // 4️⃣ 통합 Refresh
-    suspend fun refreshExcelData(accessToken: String): HttpResult<Unit> {
-        return when (val downloadResult = downloadExcel(accessToken)) {
-            is HttpResult.Success -> insertExcelToDb(downloadResult.data)
-            is HttpResult.Error -> HttpResult.Error(downloadResult.exception, downloadResult.message)
-            is HttpResult.Loading -> HttpResult.Loading
-        }
-    }
+//    suspend fun loadExcelDataAndPutDataInToLocalDb(
+//        accessToken: String,
+//        loadingFun: (String?) -> Unit
+//    ): HttpResult<Unit> {
+//        return when (val downloadResult = downloadExcel(accessToken)) {
+//            is HttpResult.Success -> insertExcelToDb(downloadResult.data)
+//            is HttpResult.Error -> HttpResult.Error(
+//                downloadResult.exception,
+//                downloadResult.message
+//            )
+//
+//            is HttpResult.Loading -> {
+//                loadingFun("DB에 데이터를 넣는중입니다.")
+//                HttpResult.Loading
+//            }
+//        }
+//    }
 }

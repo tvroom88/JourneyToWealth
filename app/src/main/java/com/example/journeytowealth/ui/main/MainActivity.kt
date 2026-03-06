@@ -12,7 +12,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.journeytowealth.R
 import com.example.journeytowealth.core.base.BaseActivity
-import com.example.journeytowealth.core.result.HttpResult
 import com.example.journeytowealth.data.local.MarketIndexLocalDataSource
 import com.example.journeytowealth.data.local.StockLocalDataSource
 import com.example.journeytowealth.data.local.database.AppDatabase
@@ -45,7 +44,6 @@ import kotlinx.coroutines.withContext
  */
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 
-
     private val mainRepository by lazy { createRepository() }
     private val mainViewModel: MainViewModel by viewModels {
         MainViewModelFactory(mainRepository)
@@ -66,7 +64,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         setupToolbar() // toolbar 세팅
         setupMainFragmentContainer() // Fragment Container 부분 세팅
         setupBottomNavigation() // bottomNavigation 세팅
-        observeExcelData(this)
+        observeData()
         setupGoogleLogin(this)
     }
 
@@ -121,27 +119,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     /** ViewModel 데이터 관찰 */
-    private fun observeExcelData(context: Context) {
-        lifecycleScope.launchWhenStarted {
-            mainViewModel.excelData.collect { result ->
-                when (result) {
-                    is HttpResult.Success -> {
-                        Log.d("MainActivity", "ExcelData loaded successfully")
-                        // TODO: RecyclerView에 데이터 전달
-                    }
+    private fun observeData() {
 
-                    is HttpResult.Error -> {
-                        Toast.makeText(
-                            context,
-                            result.message ?: "Error",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
-                    is HttpResult.Loading -> {
-                        // TODO: ProgressBar 표시
-                    }
-                }
+        // 로딩관련 내용을 관리한다.
+        lifecycleScope.launch {
+            mainViewModel.loading.collect { loadingData ->
+                showLoading(loadingData.isLoading, loadingData.message)
             }
         }
     }
@@ -238,7 +221,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     private fun showLoading(show: Boolean, message: String = "로딩중") {
-        binding.llLoadingContainerMain.visibility = if (show) View.VISIBLE else View.GONE
+        binding.flLoadingContainerMain.visibility = if (show) View.VISIBLE else View.GONE
         binding.tvLoadingText.text = message
     }
 

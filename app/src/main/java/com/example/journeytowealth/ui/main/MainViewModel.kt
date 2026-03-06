@@ -3,25 +3,57 @@ package com.example.journeytowealth.ui.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.journeytowealth.core.result.HttpResult
+import com.example.journeytowealth.core.utils.ExcelParser
 import com.example.journeytowealth.data.repository.MainRepository
+import com.example.journeytowealth.ui.state.LoadingState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val repository: MainRepository) : ViewModel() {
 
     // UI에서 observe할 StateFlow
-    private val _excelData = MutableStateFlow<HttpResult<Unit>>(HttpResult.Loading)
-    val excelData: StateFlow<HttpResult<Unit>> = _excelData
+//    private val _stockData = MutableStateFlow<HttpResult<Unit>>(HttpResult.Loading)
+//    val stockData: StateFlow<HttpResult<Unit>> = _stockData // 최종적으로 DB에 들어갔는지 확인
+
+    private val _loading = MutableStateFlow(LoadingState())
+    val loading = _loading.asStateFlow()
 
     // Excel 다운로드 실행
     fun loadExcel(accessToken: String?) {
-        accessToken?.let {
-            viewModelScope.launch {
-                _excelData.value = HttpResult.Loading
-                val result = repository.refreshExcelData(accessToken)
-                _excelData.value = result
+        accessToken ?: return
+        viewModelScope.launch {
+            showLoading("엑셀 다운로드 중입니다.")
+
+            when (val result = repository.downloadExcel(accessToken)) {
+                is HttpResult.Success -> {
+                    showLoading("엑셀 데이터를 파싱중입니다..")
+                    val list = ExcelParser.parse(result.data)
+
+                    showLoading("DB에 데이터를 저장하는 중입니다.")
+                    repository.insertExcelToDb(list)
+
+                    hideLoading()
+                }
+
+                is HttpResult.Error -> {
+                    hideLoading()
+                }
+
+                else -> {}
             }
         }
+
+    }
+
+    fun showLoading(message: String? = null) {
+        _loading.value = LoadingState(true, message ?: "로딩중")
+    }
+
+
+    fun hideLoading() {
+        _loading.value = LoadingState(false, "")
     }
 }

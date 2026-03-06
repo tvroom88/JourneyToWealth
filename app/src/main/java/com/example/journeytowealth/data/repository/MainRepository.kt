@@ -8,6 +8,8 @@ import com.example.journeytowealth.data.local.MarketIndexLocalDataSource
 import com.example.journeytowealth.data.local.PortfolioLocalDataSource
 import com.example.journeytowealth.data.local.StockLocalDataSource
 import com.example.journeytowealth.data.mapper.toEntity
+import com.example.journeytowealth.data.mapper.toSectionUiModel
+import com.example.journeytowealth.data.mapper.toUiModel
 import com.example.journeytowealth.data.model.DbData
 import com.example.journeytowealth.data.model.ExcelData
 import com.example.journeytowealth.data.remote.ExcelRemoteDataSource
@@ -56,11 +58,14 @@ class MainRepository(
             stockLocalDataSource.getStocks(),
             marketIndexLocalDataSource.getMarketIndexes(),
             portfolioLocalDataSource.getPortfolios()
-        ) { stocks, indexes, portfolio ->
-            for(portfoilo in portfolio){
+        ) { stocks, indexes, portfolios ->
+
+            for(portfoilo in portfolios){
                 Log.d("portfoilo", "portfoilo : $portfoilo")
             }
-            DbData(indexes, stocks, portfolio)
+
+            val portfolioSectionUiMode = portfolios.toSectionUiModel()
+            DbData(indexes, stocks, portfolioSectionUiMode)
         }
             .map<DbData, UiState<DbData>> {
                 UiState.Success(it)

@@ -5,10 +5,13 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "portfolio")
 data class PortfolioEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
-    val category: String,
+    @PrimaryKey
+    val idForDb: Int,
+
     val etfName: String,
+
+    val accountType: String,   // ISA / 연금저축 / DC
+
     val targetWeight: Float,
     val currentWeight: Float,
     val deviation: Float,

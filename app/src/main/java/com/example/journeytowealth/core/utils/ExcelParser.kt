@@ -21,6 +21,8 @@ object ExcelParser {
         val stocks = mutableListOf<StockDto>()
         val portfolios = mutableListOf<PortfolioDto>()
 
+        var idForDb = 1111
+
         for (i in 1..sheet.lastRowNum) {
 
             val row = sheet.getRow(i) ?: continue
@@ -60,6 +62,7 @@ object ExcelParser {
                 "PORTFOLIO" -> {
                     portfolios.add(
                         PortfolioDto(
+                            idForDb = idForDb++,
                             category = getString(row.getCell(1)),
                             etfName = getString(row.getCell(2)),
                             targetWeight = getFloat(row.getCell(3)) * 100,
@@ -112,6 +115,7 @@ object ExcelParser {
             }
 
         } catch (e: Exception) {
+            Log.d("getgetget", "getString cell : ${cell.stringCellValue} is error : ${e.message}")
             ""
         }
     }
@@ -146,7 +150,7 @@ object ExcelParser {
             }
 
         } catch (e: Exception) {
-            Log.d("ExcelParser", "Float parse error : ${e.message}")
+            Log.d("getgetget", "getFloat cell : ${cell.stringCellValue} is error : ${e.message}")
             0f
         }
     }
@@ -181,7 +185,8 @@ object ExcelParser {
             }
 
         } catch (e: Exception) {
-            Log.d("ExcelParser", "Int parse error : ${e.message}")
+            Log.d("getgetget", "getInt cell : ${cell.stringCellValue} is error : ${e.message}")
+
             0
         }
     }

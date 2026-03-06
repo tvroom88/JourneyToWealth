@@ -33,9 +33,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title">
 
-        <include
-            android:id="@+id/portfolio_header"
-            layout="@layout/item_portfolio_header" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_portfolio"

@@ -1,6 +1,7 @@
 package com.example.journeytowealth.data.remote.dto
 
 data class PortfolioDto(
+    val idForDb: Int,
     val category: String,          // 표시 (ETF 이름)
     val etfName: String,        // ETF 코드
     val targetWeight: Float,   // 목표 비중 (%)

@@ -1,9 +1,11 @@
 package com.example.journeytowealth.data.repository
 
+import android.util.Log
 import com.example.journeytowealth.core.result.HttpResult
 import com.example.journeytowealth.ui.state.UiState
 import com.example.journeytowealth.core.utils.ExcelParser
 import com.example.journeytowealth.data.local.MarketIndexLocalDataSource
+import com.example.journeytowealth.data.local.PortfolioLocalDataSource
 import com.example.journeytowealth.data.local.StockLocalDataSource
 import com.example.journeytowealth.data.mapper.toEntity
 import com.example.journeytowealth.data.model.DbData
@@ -18,7 +20,9 @@ import kotlinx.coroutines.flow.onStart
 class MainRepository(
     private val excelRemoteDataSource: ExcelRemoteDataSource,
     private val stockLocalDataSource: StockLocalDataSource,
-    private val marketIndexLocalDataSource: MarketIndexLocalDataSource
+    private val marketIndexLocalDataSource: MarketIndexLocalDataSource,
+    private val portfolioLocalDataSource: PortfolioLocalDataSource
+
 ) {
 
     /**
@@ -33,10 +37,12 @@ class MainRepository(
 
             val stockEntities = excelData.stocks.map { it.toEntity() }
             val marketIndexEntities = excelData.indexes.map { it.toEntity() }
+            val portfolioEntities = excelData.portfolios.map { it.toEntity() }
 
             // DB 저장
             stockLocalDataSource.insertStocks(stockEntities)
             marketIndexLocalDataSource.insertMarketIndexes(marketIndexEntities)
+            portfolioLocalDataSource.insertPortfolios(portfolioEntities)
 
             Result.success(Unit)
         } catch (e: Exception) {
@@ -48,9 +54,13 @@ class MainRepository(
     fun observeDb(): Flow<UiState<DbData>> =
         combine(
             stockLocalDataSource.getStocks(),
-            marketIndexLocalDataSource.getMarketIndexes()
-        ) { stocks, indexes ->
-            DbData(indexes, stocks)
+            marketIndexLocalDataSource.getMarketIndexes(),
+            portfolioLocalDataSource.getPortfolios()
+        ) { stocks, indexes, portfolio ->
+            for(index in indexes){
+                Log.d("index", "index : $index")
+            }
+            DbData(indexes, stocks, portfolio)
         }
             .map<DbData, UiState<DbData>> {
                 UiState.Success(it)
@@ -62,23 +72,4 @@ class MainRepository(
                 emit(UiState.Error(e.message ?: "Unknown error", e))
             }
 
-
-    // 4️⃣ 통합 Refresh
-//    suspend fun loadExcelDataAndPutDataInToLocalDb(
-//        accessToken: String,
-//        loadingFun: (String?) -> Unit
-//    ): HttpResult<Unit> {
-//        return when (val downloadResult = downloadExcel(accessToken)) {
-//            is HttpResult.Success -> insertExcelToDb(downloadResult.data)
-//            is HttpResult.Error -> HttpResult.Error(
-//                downloadResult.exception,
-//                downloadResult.message
-//            )
-//
-//            is HttpResult.Loading -> {
-//                loadingFun("DB에 데이터를 넣는중입니다.")
-//                HttpResult.Loading
-//            }
-//        }
-//    }
 }

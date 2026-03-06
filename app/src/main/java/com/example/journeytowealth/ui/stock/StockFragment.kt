@@ -10,6 +10,7 @@ import com.example.journeytowealth.MyApplication
 import com.example.journeytowealth.core.base.BaseFragment
 import com.example.journeytowealth.ui.state.UiState
 import com.example.journeytowealth.data.local.MarketIndexLocalDataSource
+import com.example.journeytowealth.data.local.PortfolioLocalDataSource
 import com.example.journeytowealth.data.local.StockLocalDataSource
 import com.example.journeytowealth.data.local.database.AppDatabase
 import com.example.journeytowealth.data.local.entity.MarketIndexEntity
@@ -95,7 +96,8 @@ class StockFragment :
             excelRemoteDataSource = ExcelRemoteDataSource(),
             stockLocalDataSource = StockLocalDataSource(db.stockDao()),
             marketIndexLocalDataSource =
-                MarketIndexLocalDataSource(db.marketIndexDao())
+                MarketIndexLocalDataSource(db.marketIndexDao()),
+            portfolioLocalDataSource = PortfolioLocalDataSource(db.portfolioDao())
         )
     }
 

@@ -13,6 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.journeytowealth.R
 import com.example.journeytowealth.core.base.BaseActivity
 import com.example.journeytowealth.data.local.MarketIndexLocalDataSource
+import com.example.journeytowealth.data.local.PortfolioLocalDataSource
 import com.example.journeytowealth.data.local.StockLocalDataSource
 import com.example.journeytowealth.data.local.database.AppDatabase
 import com.example.journeytowealth.data.remote.ExcelRemoteDataSource
@@ -231,8 +232,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         return MainRepository(
             excelRemoteDataSource = ExcelRemoteDataSource(),
             stockLocalDataSource = StockLocalDataSource(db.stockDao()),
-            marketIndexLocalDataSource =
-                MarketIndexLocalDataSource(db.marketIndexDao())
+            marketIndexLocalDataSource = MarketIndexLocalDataSource(db.marketIndexDao()),
+            portfolioLocalDataSource = PortfolioLocalDataSource(db.portfolioDao())
         )
     }
 }

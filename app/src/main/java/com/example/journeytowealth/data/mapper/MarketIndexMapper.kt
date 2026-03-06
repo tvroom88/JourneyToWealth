@@ -1,8 +1,10 @@
 package com.example.journeytowealth.data.mapper
 
 import com.example.journeytowealth.data.local.entity.MarketIndexEntity
+import com.example.journeytowealth.data.local.entity.PortfolioEntity
 import com.example.journeytowealth.data.local.entity.StockEntity
 import com.example.journeytowealth.data.remote.dto.MarketIndexDto
+import com.example.journeytowealth.data.remote.dto.PortfolioDto
 import com.example.journeytowealth.data.remote.dto.StockDto
 
 fun MarketIndexDto.toEntity(): MarketIndexEntity =
@@ -37,4 +39,30 @@ fun StockDto.toEntity(): StockEntity =
         drawdownPercent = drawdownPercent.toDouble(),
         per = per?.toDouble(),
         eps = eps?.toDouble()
+    )
+
+fun PortfolioDto.toEntity(): PortfolioEntity =
+    PortfolioEntity(
+        category = category,
+        etfName = etfName,
+        targetWeight = targetWeight,
+        currentWeight = currentWeight,
+        deviation = deviation,
+        tradeQuantity = tradeQuantity,
+        holdingQuantity = holdingQuantity,
+        currentPrice = currentPrice,
+        evaluationAmount = evaluationAmount
+    )
+
+fun PortfolioEntity.toDto(): PortfolioDto =
+    PortfolioDto(
+        category = category,
+        etfName = etfName,
+        targetWeight = targetWeight,
+        currentWeight = currentWeight,
+        deviation = deviation,
+        tradeQuantity = tradeQuantity,
+        holdingQuantity = holdingQuantity,
+        currentPrice = currentPrice,
+        evaluationAmount = evaluationAmount
     )

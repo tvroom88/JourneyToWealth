@@ -14,10 +14,6 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(private val repository: MainRepository) : ViewModel() {
 
-    // UI에서 observe할 StateFlow
-//    private val _stockData = MutableStateFlow<HttpResult<Unit>>(HttpResult.Loading)
-//    val stockData: StateFlow<HttpResult<Unit>> = _stockData // 최종적으로 DB에 들어갔는지 확인
-
     private val _loading = MutableStateFlow(LoadingState())
     val loading = _loading.asStateFlow()
 

@@ -49,8 +49,9 @@ class StockAdapter :
     class StockViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
-        private val name: TextView = itemView.findViewById(R.id.tvName)
-//        private val ticker: TextView = itemView.findViewById(R.id.tvTicker)
+        private val name: TextView = itemView.findViewById(R.id.tvTicker)
+
+        //        private val ticker: TextView = itemView.findViewById(R.id.tvTicker)
         private val tvCurrent: TextView = itemView.findViewById(R.id.tvCurrent)
         private val tvHigh: TextView = itemView.findViewById(R.id.tvHigh)
         private val tvDrawdown: TextView = itemView.findViewById(R.id.tvDrawdown)
@@ -58,8 +59,6 @@ class StockAdapter :
         fun bind(item: StockEntity) {
 
             name.text = item.name
-//            ticker.text = item.ticker
-
             tvCurrent.text = "%.2f".format(item.currentValue)
             tvHigh.text = "%.2f".format(item.allTimeHigh)
             tvDrawdown.text = String.format(Locale.US, "%.2f%%", item.drawdownPercent)

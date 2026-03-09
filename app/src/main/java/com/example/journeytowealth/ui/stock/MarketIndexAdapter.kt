@@ -44,7 +44,7 @@ class MarketIndexAdapter :
     class MarketIndexViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
-        private val name: TextView = itemView.findViewById(R.id.tvName)
+        private val name: TextView = itemView.findViewById(R.id.tvTicker)
 //        private val tvTicker: TextView = itemView.findViewById(R.id.tvTicker)
         private val tvCurrent: TextView = itemView.findViewById(R.id.tvCurrent)
         private val tvHigh: TextView = itemView.findViewById(R.id.tvHigh)
@@ -52,8 +52,7 @@ class MarketIndexAdapter :
 
         fun bind(item: MarketIndexEntity) {
 
-            name.text = item.name
-//            tvTicker.text = item.ticker
+            name.text = item.ticker
 
             tvCurrent.text =
                 String.format(Locale.US, "%.2f", item.currentValue)

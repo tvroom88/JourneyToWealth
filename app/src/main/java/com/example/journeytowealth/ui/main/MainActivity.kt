@@ -43,7 +43,8 @@ import kotlinx.coroutines.withContext
  * (3) Room DB에 대이터 넣기
  * (4) RecyclerView로 표처럼 보여주기
  */
-class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
+class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate),
+    OnMainActivityUiControlListener {
 
     private val mainRepository by lazy { createRepository() }
     private val mainViewModel: MainViewModel by viewModels {
@@ -225,6 +226,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         binding.flLoadingContainerMain.visibility = if (show) View.VISIBLE else View.GONE
         binding.tvLoadingText.text = message
     }
+
+    override fun hideToolbarMenu() = toggleToolbarMenu()
+    override fun isMenuOpen() = currentToolbarStatus
 
     private fun createRepository(): MainRepository {
 

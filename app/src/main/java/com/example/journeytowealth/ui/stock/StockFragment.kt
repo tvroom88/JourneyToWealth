@@ -2,12 +2,15 @@ package com.example.journeytowealth.ui.stock
 
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.journeytowealth.MyApplication
 import com.example.journeytowealth.core.base.BaseFragment
+import com.example.journeytowealth.core.base.main.BaseMainFragment
 import com.example.journeytowealth.ui.state.UiState
 import com.example.journeytowealth.data.local.MarketIndexLocalDataSource
 import com.example.journeytowealth.data.local.PortfolioLocalDataSource
@@ -20,7 +23,7 @@ import com.example.journeytowealth.databinding.FragmentStockBinding
 import com.example.journeytowealth.ui.main.MainViewModel
 
 class StockFragment :
-    BaseFragment<FragmentStockBinding>(FragmentStockBinding::inflate) {
+    BaseMainFragment<FragmentStockBinding>(FragmentStockBinding::inflate) {
 
     private val mainRepository by lazy { createRepository() }
     private val marketIndexAdapter by lazy { MarketIndexAdapter() }
@@ -32,27 +35,7 @@ class StockFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerIndex.layoutManager = LinearLayoutManager(mContext)
-        binding.recyclerIndex.adapter = marketIndexAdapter
-
-        binding.recyclerStock.layoutManager = LinearLayoutManager(mContext)
-        binding.recyclerStock.adapter = stockAdapter
-
-        binding.btnToggle.setOnClickListener {
-            val showIndex = binding.indexContainer.visibility == View.VISIBLE
-
-            if (showIndex) {
-                binding.indexContainer.visibility = View.GONE
-                binding.stockContainer.visibility = View.VISIBLE
-                binding.btnToggle.text = "주식"
-                binding.tvTitle.text = "주식정보"
-            } else {
-                binding.indexContainer.visibility = View.VISIBLE
-                binding.stockContainer.visibility = View.GONE
-                binding.btnToggle.text = "지수"
-                binding.tvTitle.text = "지수정보"
-            }
-        }
+        setupRecyclerView()
 
         // DB에 저장된 내용 구독
         lifecycleScope.launchWhenStarted {
@@ -86,6 +69,50 @@ class StockFragment :
             }
         }
 
+    }
+
+
+    private fun setupRecyclerView() {
+
+        binding.recyclerIndex.layoutManager = LinearLayoutManager(mContext)
+        binding.recyclerIndex.adapter = marketIndexAdapter
+
+        binding.recyclerStock.layoutManager = LinearLayoutManager(mContext)
+        binding.recyclerStock.adapter = stockAdapter
+
+        binding.btnToggle.setOnClickListener {
+            val showIndex = binding.indexContainer.visibility == View.VISIBLE
+
+            if (showIndex) {
+                binding.indexContainer.visibility = View.GONE
+                binding.stockContainer.visibility = View.VISIBLE
+                binding.btnToggle.text = "주식"
+                binding.tvTitle.text = "주식정보"
+            } else {
+                binding.indexContainer.visibility = View.VISIBLE
+                binding.stockContainer.visibility = View.GONE
+                binding.btnToggle.text = "지수"
+                binding.tvTitle.text = "지수정보"
+            }
+        }
+
+        binding.recyclerIndex.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                return checkMenuAndIntercept(e)
+            }
+
+            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
+            override fun onRequestDisallowInterceptTouchEvent(disallow: Boolean) {}
+        })
+
+        binding.recyclerStock.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                return checkMenuAndIntercept(e)
+            }
+
+            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
+            override fun onRequestDisallowInterceptTouchEvent(disallow: Boolean) {}
+        })
     }
 
     companion object {

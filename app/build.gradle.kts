@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.androidx.navigation.safeargs)
 }
 
 android {
@@ -56,6 +57,7 @@ dependencies {
     // Bottom Navigation
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+
 
     // okhttp3
     implementation(libs.okhttp)

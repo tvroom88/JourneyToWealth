@@ -14,7 +14,7 @@
         android:gravity="center"
         android:text="내 포트폴리오"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

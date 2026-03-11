@@ -41,4 +41,20 @@
             app:argType="com.example.journeytowealth.ui.checklist.CHECKLISTTYPE" />
     </fragment>
 
+
+    <fragment
+        android:id="@+id/navigation_navPage"
+        android:name="com.example.journeytowealth.ui.toprightmenu.navInfoPage.NavInfoPage"
+        android:label="Macro Economics" >
+        <action
+            android:id="@+id/action_navPage_to_macro"
+            app:destination="@id/navigation_macro_economics"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_macro_economics"
+        android:name="com.example.journeytowealth.ui.toprightmenu.macroeconomic.MacroEconomicsFragment"
+        android:label="Macro Economics" />
 </navigation>

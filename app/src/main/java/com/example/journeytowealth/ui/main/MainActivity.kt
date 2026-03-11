@@ -97,6 +97,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 Log.d("MainActivity", "googleToken이 없습니다.")
             }
         }
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host)
+                as NavHostFragment
+        val navController = navHostFragment.navController
+        binding.tvNavPage.setOnClickListener {
+            navController.navigate(R.id.navigation_navPage)
+
+        }
     }
 
     private fun toggleToolbarMenu() {

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:paddingBottom="14dp">
+
+        <TextView
+            android:id="@+id/tv_gdp_macro_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="GDP 성장률"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_fresh"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="3dp"
+            android:src="@drawable/ic_refresh"
+            app:layout_constraintStart_toEndOf="@+id/tv_gdp_macro_title"
+            app:layout_constraintTop_toTopOf="@+id/tv_gdp_macro_title" />
+
+        <TextView
+            android:id="@+id/tv_gdp_macro_title_percentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="4.1%"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/tv_gdp_macro_title"
+            app:layout_constraintTop_toBottomOf="@+id/tv_gdp_macro_title" />
+
+        <ImageView
+            android:id="@+id/ivTrendIcon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/common_google_signin_btn_icon_dark"
+            app:layout_constraintStart_toStartOf="@+id/tv_gdp_macro_title_percentage"
+            app:layout_constraintTop_toBottomOf="@+id/tv_gdp_macro_title_percentage" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/ivTrendIcon"
+            app:layout_constraintStart_toEndOf="@+id/ivTrendIcon"
+            app:layout_constraintTop_toTopOf="@+id/ivTrendIcon">
+
+            <TextView
+                android:id="@+id/tv_gdp_macro_yoy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="YOY : +0.5%"
+                android:textColor="#000000"
+                android:textSize="8sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/ivTrendIcon"
+                app:layout_constraintTop_toTopOf="@+id/ivTrendIcon" />
+
+            <TextView
+                android:id="@+id/tv_gdp_macro_mom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="MOM : +0.5%"
+                android:textColor="#000000"
+                android:textSize="8sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/ivTrendIcon"
+                app:layout_constraintStart_toEndOf="@+id/tv_gdp_macro_yoy"
+                app:layout_constraintTop_toTopOf="@+id/ivTrendIcon" />
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

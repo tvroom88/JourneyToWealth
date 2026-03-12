@@ -7,7 +7,7 @@ import android.os.Environment
 import android.webkit.MimeTypeMap
 import java.io.File
 
-object FredDownloadManager {
+object FileDownloadManager {
 
     /**
      * 파일 다운로드 요청

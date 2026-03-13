@@ -3,6 +3,7 @@ package com.example.journeytowealth.ui.stock
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,11 @@ import com.example.journeytowealth.databinding.FragmentStockBinding
 import com.example.journeytowealth.databinding.LayoutStockPagerItemBinding
 import com.example.journeytowealth.ui.main.MainViewModel
 import com.example.journeytowealth.ui.state.UiState
+import com.google.android.gms.auth.GoogleAuthUtil
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class StockFragment : BaseMainFragment<FragmentStockBinding>(FragmentStockBinding::inflate) {
 
@@ -27,6 +33,30 @@ class StockFragment : BaseMainFragment<FragmentStockBinding>(FragmentStockBindin
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // 새로고침 버튼 클릭 시
+        binding.btnRefresh.setOnClickListener {
+            // ViewModel에 데이터 갱신 요청 (예시)
+            val account = GoogleSignIn.getLastSignedInAccount(mContext)
+
+            account?.account?.let { googleAccount ->
+                CoroutineScope(Dispatchers.IO).launch {
+                    val scope = "oauth2:https://www.googleapis.com/auth/drive.readonly"
+
+                    val googleToken = GoogleAuthUtil.getToken(
+                        mContext,
+                        googleAccount,
+                        scope
+                    )
+                    mainViewModel.loadExcel(googleToken)
+                }
+            }
+
+
+            // 클릭 시 햅틱 피드백(진동)을 주면 훨씬 고급스럽습니다.
+            it.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+
+        }
         setupViewPager()
         observeData()
     }
@@ -39,7 +69,11 @@ class StockFragment : BaseMainFragment<FragmentStockBinding>(FragmentStockBindin
 
             // position: 현재 페이지 index
             // positionOffset: 현재 페이지에서 다음 페이지로 넘어간 비율 (0.0 ~ 1.0)
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
 
                 // 1. 이동할 거리 계산
@@ -65,29 +99,9 @@ class StockFragment : BaseMainFragment<FragmentStockBinding>(FragmentStockBindin
         binding.btnIndex.setOnClickListener { binding.viewPager.currentItem = 0 }
         binding.btnStock.setOnClickListener { binding.viewPager.currentItem = 1 }
     }
-    
+
     // 텍스트 스타일만 변경해주는 함수 (애니메이션 로직 제외)
     private fun updateTextStyle(isIndexSelected: Boolean) {
-        binding.btnIndex.apply {
-            setTextColor(if (isIndexSelected) Color.BLACK else Color.GRAY)
-            setTypeface(null, if (isIndexSelected) Typeface.BOLD else Typeface.NORMAL)
-        }
-        binding.btnStock.apply {
-            setTextColor(if (isIndexSelected) Color.GRAY else Color.BLACK)
-            setTypeface(null, if (isIndexSelected) Typeface.NORMAL else Typeface.BOLD)
-        }
-    }
-
-    private fun updateTabUI(isIndexSelected: Boolean) {
-        // 탭 배경 이동 애니메이션
-        val targetX = if (isIndexSelected) 0f else binding.btnStock.x
-        binding.viewSelector.animate()
-            .translationX(targetX)
-            .setDuration(250)
-            .setInterpolator(AccelerateDecelerateInterpolator())
-            .start()
-
-        // 텍스트 스타일 변경
         binding.btnIndex.apply {
             setTextColor(if (isIndexSelected) Color.BLACK else Color.GRAY)
             setTypeface(null, if (isIndexSelected) Typeface.BOLD else Typeface.NORMAL)
@@ -101,11 +115,44 @@ class StockFragment : BaseMainFragment<FragmentStockBinding>(FragmentStockBindin
     private fun observeData() {
         lifecycleScope.launchWhenStarted {
             mainRepository.observeDb().collect { state ->
-                if (state is UiState.Success) {
-                    marketIndexAdapter.submitList(state.data.indexes)
-                    stockAdapter.submitList(state.data.stocks)
-                    mainViewModel.hideLoading()
+                when (state) {
+                    is UiState.Loading -> {
+                        setLoadingState(true)
+                    }
+
+                    is UiState.Success -> {
+                        // ... 데이터 제출 로직 ...
+                        marketIndexAdapter.submitList(state.data.indexes)
+                        stockAdapter.submitList(state.data.stocks)
+                        setLoadingState(false)
+                    }
+
+                    is UiState.Error -> {
+                        setLoadingState(false)
+                    }
                 }
+            }
+        }
+    }
+
+    /**
+     * 로딩 상태에 따른 Cool한 애니메이션 제어
+     */
+    private fun setLoadingState(isLoading: Boolean) {
+        binding.apply {
+            if (isLoading) {
+                // 아이콘을 숨기고 프로그레스바 표시
+                ivRefresh.visibility = View.GONE
+                pbLoading.visibility = View.VISIBLE
+                // 버튼 자체에 부드러운 스케일 애니메이션 (움찔하는 효과)
+                btnRefresh.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start()
+            } else {
+                ivRefresh.visibility = View.VISIBLE
+                pbLoading.visibility = View.GONE
+
+                // 버튼 복구 및 아이콘 회전 애니메이션 (성공 피드백)
+                btnRefresh.animate().scaleX(1.0f).scaleY(1.0f).setDuration(200).start()
+                ivRefresh.animate().rotationBy(360f).setDuration(500).start()
             }
         }
     }

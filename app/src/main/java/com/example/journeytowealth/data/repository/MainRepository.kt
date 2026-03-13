@@ -1,18 +1,15 @@
 package com.example.journeytowealth.data.repository
 
-import android.util.Log
 import com.example.journeytowealth.core.result.HttpResult
-import com.example.journeytowealth.ui.state.UiState
-import com.example.journeytowealth.core.utils.ExcelParser
 import com.example.journeytowealth.data.local.MarketIndexLocalDataSource
 import com.example.journeytowealth.data.local.PortfolioLocalDataSource
 import com.example.journeytowealth.data.local.StockLocalDataSource
 import com.example.journeytowealth.data.mapper.toEntity
 import com.example.journeytowealth.data.mapper.toSectionUiModel
-import com.example.journeytowealth.data.mapper.toUiModel
 import com.example.journeytowealth.data.model.DbData
 import com.example.journeytowealth.data.model.ExcelData
 import com.example.journeytowealth.data.remote.ExcelRemoteDataSource
+import com.example.journeytowealth.ui.state.UiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
@@ -59,10 +56,6 @@ class MainRepository(
             marketIndexLocalDataSource.getMarketIndexes(),
             portfolioLocalDataSource.getPortfolios()
         ) { stocks, indexes, portfolios ->
-
-            for(portfoilo in portfolios){
-                Log.d("portfoilo", "portfoilo : $portfoilo")
-            }
 
             val portfolioSectionUiMode = portfolios.toSectionUiModel()
             DbData(indexes, stocks, portfolioSectionUiMode)

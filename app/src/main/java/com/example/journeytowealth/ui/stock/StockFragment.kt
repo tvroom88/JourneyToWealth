@@ -3,174 +3,137 @@ package com.example.journeytowealth.ui.stock
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
-import android.util.Log
-import android.view.MotionEvent
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.DecelerateInterpolator
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.example.journeytowealth.core.base.main.BaseMainFragment
 import com.example.journeytowealth.databinding.FragmentStockBinding
+import com.example.journeytowealth.databinding.LayoutStockPagerItemBinding
 import com.example.journeytowealth.ui.main.MainViewModel
 import com.example.journeytowealth.ui.state.UiState
 
 class StockFragment : BaseMainFragment<FragmentStockBinding>(FragmentStockBinding::inflate) {
 
-    private val mainRepository by lazy { createRepository() }
     private val marketIndexAdapter by lazy { MarketIndexAdapter() }
     private val stockAdapter by lazy { StockAdapter() }
     private val mainViewModel: MainViewModel by activityViewModels()
-
-    // 현재 어떤 탭이 선택되어 있는지 상태 저장
-    private var isCurrentIndexTab = true
+    private val mainRepository by lazy { createRepository() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setupRecyclerView()
+        setupViewPager()
         observeData()
+    }
 
-        // 초기 UI 상태 설정 (지수 탭 활성화)
-        binding.root.post {
-            updateTabUI(isIndexSelected = true, animate = false)
+    private fun setupViewPager() {
+        binding.viewPager.adapter = StockPagerAdapter()
+
+        // 페이지 변경 콜백 (실시간 위치 동기화 핵심)
+        binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+
+            // position: 현재 페이지 index
+            // positionOffset: 현재 페이지에서 다음 페이지로 넘어간 비율 (0.0 ~ 1.0)
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+
+                // 1. 이동할 거리 계산
+                // 지수(0)에서 종목(1) 버튼까지의 거리
+                val travelDistance = binding.btnStock.x - binding.btnIndex.x
+
+                // 2. 실시간 좌표 계산
+                // (현재 페이지 위치 * 전체 거리) + (움직인 비율 * 전체 거리)
+                val translationX = (position * travelDistance) + (positionOffset * travelDistance)
+
+                // 3. 탭 배경 위치 즉시 반영
+                binding.viewSelector.translationX = translationX
+            }
+
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                // 페이지가 완전히 멈췄을 때 텍스트 스타일 최종 업데이트
+                updateTextStyle(position == 0)
+            }
+        })
+
+        // 탭 클릭 시 이동
+        binding.btnIndex.setOnClickListener { binding.viewPager.currentItem = 0 }
+        binding.btnStock.setOnClickListener { binding.viewPager.currentItem = 1 }
+    }
+    
+    // 텍스트 스타일만 변경해주는 함수 (애니메이션 로직 제외)
+    private fun updateTextStyle(isIndexSelected: Boolean) {
+        binding.btnIndex.apply {
+            setTextColor(if (isIndexSelected) Color.BLACK else Color.GRAY)
+            setTypeface(null, if (isIndexSelected) Typeface.BOLD else Typeface.NORMAL)
+        }
+        binding.btnStock.apply {
+            setTextColor(if (isIndexSelected) Color.GRAY else Color.BLACK)
+            setTypeface(null, if (isIndexSelected) Typeface.NORMAL else Typeface.BOLD)
         }
     }
 
-    private fun setupRecyclerView() {
-        // 리사이클러뷰 공통 설정
-        val touchListener = createTouchListener()
+    private fun updateTabUI(isIndexSelected: Boolean) {
+        // 탭 배경 이동 애니메이션
+        val targetX = if (isIndexSelected) 0f else binding.btnStock.x
+        binding.viewSelector.animate()
+            .translationX(targetX)
+            .setDuration(250)
+            .setInterpolator(AccelerateDecelerateInterpolator())
+            .start()
 
-        binding.recyclerIndex.apply {
-            layoutManager = LinearLayoutManager(mContext)
-            adapter = marketIndexAdapter
-            addOnItemTouchListener(touchListener)
+        // 텍스트 스타일 변경
+        binding.btnIndex.apply {
+            setTextColor(if (isIndexSelected) Color.BLACK else Color.GRAY)
+            setTypeface(null, if (isIndexSelected) Typeface.BOLD else Typeface.NORMAL)
         }
-
-        binding.recyclerStock.apply {
-            layoutManager = LinearLayoutManager(mContext)
-            adapter = stockAdapter
-            addOnItemTouchListener(touchListener)
-        }
-
-        // 탭 클릭 리스너 (상태가 다를 때만 작동하도록 최적화)
-        binding.btnIndex.setOnClickListener {
-            if (!isCurrentIndexTab) updateTabUI(isIndexSelected = true)
-        }
-        binding.btnStock.setOnClickListener {
-            if (isCurrentIndexTab) updateTabUI(isIndexSelected = false)
+        binding.btnStock.apply {
+            setTextColor(if (isIndexSelected) Color.GRAY else Color.BLACK)
+            setTypeface(null, if (isIndexSelected) Typeface.NORMAL else Typeface.BOLD)
         }
     }
 
     private fun observeData() {
         lifecycleScope.launchWhenStarted {
             mainRepository.observeDb().collect { state ->
-                when (state) {
-                    is UiState.Loading -> {
-                        mainViewModel.showLoading("데이터를 가져오는 중입니다.")
-                    }
-
-                    is UiState.Success -> {
-                        marketIndexAdapter.submitList(state.data.indexes)
-                        stockAdapter.submitList(state.data.stocks)
-                        mainViewModel.hideLoading()
-                    }
-
-                    is UiState.Error -> {
-                        Log.e("DB_DATA", "Error: ${state.message}")
-                        mainViewModel.hideLoading()
-                    }
+                if (state is UiState.Success) {
+                    marketIndexAdapter.submitList(state.data.indexes)
+                    stockAdapter.submitList(state.data.stocks)
+                    mainViewModel.hideLoading()
                 }
             }
         }
     }
 
-    /**
-     * 핵심: 탭 전환 및 애니메이션 통합 관리
-     */
-    private fun updateTabUI(isIndexSelected: Boolean, animate: Boolean = true) {
-        if (isCurrentIndexTab == isIndexSelected && animate) return
-        isCurrentIndexTab = isIndexSelected
+    // ViewPager2를 위한 내부 어댑터
+    inner class StockPagerAdapter : RecyclerView.Adapter<StockPagerAdapter.PagerViewHolder>() {
 
-        val width = binding.root.width.toFloat()
+        // ViewBinding을 사용하는 ViewHolder
+        inner class PagerViewHolder(val binding: LayoutStockPagerItemBinding) :
+            RecyclerView.ViewHolder(binding.root)
 
-        if (animate) {
-            // 1. 상단 탭 배경 애니메이션: 버튼이 가는 방향 그대로!
-            val targetX = if (isIndexSelected) 0f else binding.btnStock.x
-            binding.viewSelector.animate()
-                .translationX(targetX)
-                .setDuration(1000)
-                .setInterpolator(AccelerateDecelerateInterpolator())
-                .start()
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagerViewHolder {
+            val binding = LayoutStockPagerItemBinding.inflate(
+                LayoutInflater.from(parent.context), parent, false
+            )
+            return PagerViewHolder(binding)
+        }
 
-            // 2. 하단 컨테이너 슬라이드: 탭이 가는 방향과 일치시킴
-            if (isIndexSelected) {
-                // [왼쪽(지수) 클릭] 탭이 왼쪽으로 이동 -> 본문도 왼쪽으로 이동하며 등장
-                // 새로 나타날 지수 컨테이너: 왼쪽(-width)에서 중앙(0)으로
-                animateSlide(binding.indexContainer, startX = -width / 4, endX = 0f, show = true)
-                // 사라질 종목 컨테이너: 중앙(0)에서 왼쪽(-width)으로 퇴장
-                animateSlide(binding.stockContainer, startX = 0f, endX = -width / 4, show = false)
-            } else {
-                // [오른쪽(종목) 클릭] 탭이 오른쪽으로 이동 -> 본문도 오른쪽으로 이동하며 등장
-                // 새로 나타날 종목 컨테이너: 오른쪽(width)에서 중앙(0)으로
-                animateSlide(binding.stockContainer, startX = width / 4, endX = 0f, show = true)
-                // 사라질 지수 컨테이너: 중앙(0)에서 오른쪽(width)으로 퇴장
-                animateSlide(binding.indexContainer, startX = 0f, endX = width / 4, show = false)
+        override fun onBindViewHolder(holder: PagerViewHolder, position: Int) {
+            holder.binding.apply {
+                // include된 레이아웃의 ID가 pager_header라면 아래와 같이 접근 가능합니다.
+                pagerHeader.tvTitleStock.text = if (position == 0) "지수" else "종목"
+
+                recyclerViewInner.layoutManager = LinearLayoutManager(mContext)
+                recyclerViewInner.adapter = if (position == 0) marketIndexAdapter else stockAdapter
             }
-        } else {
-            // 초기 설정 (애니메이션 없음)
-            binding.viewSelector.translationX = if (isIndexSelected) 0f else binding.btnStock.x
-            binding.indexContainer.visibility = if (isIndexSelected) View.VISIBLE else View.GONE
-            binding.stockContainer.visibility = if (isIndexSelected) View.GONE else View.VISIBLE
         }
 
-        // 3. 텍스트 및 헤더 업데이트
-        binding.apply {
-            btnIndex.apply {
-                setTextColor(if (isIndexSelected) Color.BLACK else Color.GRAY)
-                setTypeface(null, if (isIndexSelected) Typeface.BOLD else Typeface.NORMAL)
-            }
-            btnStock.apply {
-                setTextColor(if (isIndexSelected) Color.GRAY else Color.BLACK)
-                setTypeface(null, if (isIndexSelected) Typeface.NORMAL else Typeface.BOLD)
-            }
-            indexHeader.tvTitleStock.text = "지수"
-            stockHeader.tvTitleStock.text = "종목"
-        }
-    }
-
-    private fun animateSlide(view: View, startX: Float, endX: Float, show: Boolean) {
-        if (show) {
-            view.visibility = View.VISIBLE
-            view.translationX = startX
-            view.alpha = 0f
-            view.animate()
-                .translationX(endX)
-                .alpha(1f)
-                .setDuration(1000)
-                .setInterpolator(DecelerateInterpolator())
-                .start()
-        } else {
-            view.animate()
-                .translationX(endX)
-                .alpha(0f)
-                .setDuration(1000)
-                .withEndAction {
-                    view.visibility = View.GONE
-                    view.translationX = 0f // 다음 사용을 위해 위치 리셋
-                }
-                .start()
-        }
-    }
-
-    private fun createTouchListener() = object : RecyclerView.OnItemTouchListener {
-        override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-            return checkMenuAndIntercept(e)
-        }
-
-        override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
-        override fun onRequestDisallowInterceptTouchEvent(disallow: Boolean) {}
+        override fun getItemCount(): Int = 2
     }
 }

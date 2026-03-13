@@ -16,9 +16,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Fragment Container -->
-
-    <!-- Bottom Navigation -->
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -27,12 +24,11 @@
         app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigation_main"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar_main"
-        app:layout_constraintVertical_bias="1.0"
         app:navGraph="@navigation/nav_graph_main" />
 
+    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation_main"
         android:layout_width="0dp"
@@ -79,7 +75,7 @@
             android:textColor="@color/black" />
 
         <TextView
-            android:id="@+id/tv_setting_main"
+            android:id="@+id/tv_nav_page"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -89,7 +85,7 @@
             android:padding="10dp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
-            android:text="아직없음"
+            android:text="상세 안내 페이지"
             android:textColor="@color/black" />
 
 
@@ -115,20 +111,20 @@
         android:layout_height="0dp"
         android:background="#66000000"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <!-- 로딩 카드 -->
         <LinearLayout
             android:layout_width="160dp"
             android:layout_height="140dp"
             android:layout_gravity="center"
-            android:orientation="vertical"
+            android:background="@drawable/bg_loading_card"
             android:gravity="center"
-            android:padding="20dp"
-            android:background="@drawable/bg_loading_card">
+            android:orientation="vertical"
+            android:padding="20dp">
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/progressBarMaterial"
@@ -136,7 +132,7 @@
                 android:layout_height="50dp"
                 app:indicatorColor="@color/loading_main"
                 app:trackColor="#E5E5E5"
-                app:trackThickness="5dp"/>
+                app:trackThickness="5dp" />
 
             <TextView
                 android:id="@+id/tv_loading_text"
@@ -144,9 +140,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:text="Loading..."
+                android:textColor="#555555"
                 android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="#555555"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 

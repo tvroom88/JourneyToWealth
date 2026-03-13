@@ -1,10 +1,10 @@
 package com.example.journeytowealth.ui.stock
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -45,7 +45,8 @@ class MarketIndexAdapter :
         RecyclerView.ViewHolder(itemView) {
 
         private val name: TextView = itemView.findViewById(R.id.tvTicker)
-//        private val tvTicker: TextView = itemView.findViewById(R.id.tvTicker)
+
+        //        private val tvTicker: TextView = itemView.findViewById(R.id.tvTicker)
         private val tvCurrent: TextView = itemView.findViewById(R.id.tvCurrent)
         private val tvHigh: TextView = itemView.findViewById(R.id.tvHigh)
         private val tvDrawdown: TextView = itemView.findViewById(R.id.tvDrawdown)
@@ -63,11 +64,18 @@ class MarketIndexAdapter :
             tvDrawdown.text =
                 String.format(Locale.US, "%.2f%%", item.drawdownPercent)
 
-            val color =
-                if (item.drawdownPercent < 0) Color.RED
-                else Color.BLUE
-
+            val color = getDrawdownColor(item.drawdownPercent)
             tvDrawdown.setTextColor(color)
+        }
+
+        fun getDrawdownColor(rate: Float): Int {
+            return when {
+                rate >= -5 -> "#D32F2F".toColorInt()
+                rate >= -15 -> "#EF5350".toColorInt()
+                rate >= -30 -> "#64B5F6".toColorInt()
+                rate >= -50 -> "#64B5F6".toColorInt()
+                else -> "#1976D2".toColorInt()
+            }
         }
     }
 }

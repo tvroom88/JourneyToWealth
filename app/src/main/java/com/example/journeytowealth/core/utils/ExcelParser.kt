@@ -70,7 +70,7 @@ object ExcelParser {
                             deviation = getFloat(row.getCell(5)) * 100,
                             tradeQuantity = getInt(row.getCell(6)),
                             holdingQuantity = getInt(row.getCell(7)),
-                            currentPrice = 100L,
+                            currentPrice = getFloat(row.getCell(8)).toLong(),
                             evaluationAmount = 100
                         )
                     )

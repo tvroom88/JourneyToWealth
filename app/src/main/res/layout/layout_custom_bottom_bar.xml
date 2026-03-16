@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/custom_bottom_bar"
+    android:layout_width="0dp"
+    android:layout_height="50dp"
+    android:background="@drawable/bg_custom_bottom_bar"
+    android:orientation="horizontal"
+    android:gravity="center">
+
+    <!-- Home Button -->
+    <LinearLayout
+        android:id="@+id/btn_home"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/iv_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_stock"
+            android:tint="@color/bottom_bar_icon_unselected"/>
+
+        <TextView
+            android:id="@+id/tv_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Home"
+            android:textSize="12sp"
+            android:textColor="@color/bottom_bar_text_unselected"/>
+    </LinearLayout>
+
+    <!-- Portfolio Button -->
+    <LinearLayout
+        android:id="@+id/btn_portfolio"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/iv_portfolio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_portfolio"
+            android:tint="@color/bottom_bar_icon_unselected"/>
+
+        <TextView
+            android:id="@+id/tv_portfolio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Portfolio"
+            android:textSize="12sp"
+            android:textColor="@color/bottom_bar_text_unselected"/>
+    </LinearLayout>
+
+    <!-- Settings Button -->
+    <LinearLayout
+        android:id="@+id/btn_settings"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/iv_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_checklist"
+            android:tint="@color/bottom_bar_icon_unselected"/>
+
+        <TextView
+            android:id="@+id/tv_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:textSize="12sp"
+            android:textColor="@color/bottom_bar_text_unselected"/>
+    </LinearLayout>
+
+</LinearLayout>

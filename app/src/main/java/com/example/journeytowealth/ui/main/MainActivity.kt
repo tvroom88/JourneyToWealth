@@ -7,9 +7,11 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
 import com.example.journeytowealth.R
 import com.example.journeytowealth.core.base.BaseActivity
 import com.example.journeytowealth.data.local.MarketIndexLocalDataSource
@@ -60,6 +62,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             handleGoogleSignInResult(result.data)
         }
 
+    private lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -68,6 +72,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         setupBottomNavigation() // bottomNavigation 세팅
         observeData()
         setupGoogleLogin(this)
+
+
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
+        navController = navHostFragment.navController
+
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { view, insets ->
+            view.setPadding(
+                view.paddingLeft,
+                insets.systemWindowInsetTop,
+                view.paddingRight,
+                insets.systemWindowInsetBottom // 소프트 내비 영역 포함
+            )
+            insets
+        }
     }
 
     /** Toolbar UI & Action 설정 */
@@ -99,7 +119,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             toggleToolbarMenu()
         }
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         val navController = navHostFragment.navController
         binding.tvNavPage.setOnClickListener {
             navController.navigate(R.id.navigation_navPage)
@@ -123,9 +144,53 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     /** BottomNavigation 세팅 */
     private fun setupBottomNavigation() {
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
-        binding.bottomNavigationMain.setupWithNavController(navHostFragment.navController)
+//        val navHostFragment =
+//            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
+//        binding.bottomNavigationMain.setupWithNavController(navHostFragment.navController)
+
+        val bottomBar = binding.includeCustomBottomBar
+
+        val tabMap = mapOf(
+            "home" to bottomBar.btnHome,
+            "portfolio" to bottomBar.btnPortfolio,
+            "checklist" to bottomBar.btnSettings // Settings 버튼을 Checklist 탭으로 사용
+        )
+
+        val fragmentMap = mapOf(
+            "home" to R.id.navigation_stock,
+            "portfolio" to R.id.navigation_portfolio,
+            "checklist" to R.id.navigation_checklist
+        )
+
+        for ((tab, view) in tabMap) {
+            view.setOnClickListener {
+                navController.navigate(fragmentMap[tab]!!)
+                selectTab(tab)
+            }
+        }
+    }
+
+    private fun selectTab(tab: String) {
+        val bottomBar = binding.includeCustomBottomBar
+
+        val iconMap = mapOf(
+            "home" to bottomBar.ivHome,
+            "portfolio" to bottomBar.ivPortfolio,
+            "checklist" to bottomBar.ivSettings
+        )
+        val textMap = mapOf(
+            "home" to bottomBar.tvHome,
+            "portfolio" to bottomBar.tvPortfolio,
+            "checklist" to bottomBar.tvSettings
+        )
+
+        // 모두 unselected
+        iconMap.values.forEach { it.setColorFilter(getColor(R.color.bottom_bar_icon_unselected)) }
+        textMap.values.forEach { it.setTextColor(getColor(R.color.bottom_bar_text_unselected)) }
+
+        // 선택된 탭만 강조
+        iconMap[tab]?.setColorFilter(getColor(R.color.bottom_bar_icon_selected))
+        textMap[tab]?.setTextColor(getColor(R.color.bottom_bar_text_selected))
     }
 
     /** ViewModel 데이터 관찰 */

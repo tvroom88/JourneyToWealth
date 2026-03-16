@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
 
     <!--  MainActivity   -->
     <color name="bg_main">#FFF1F8F4</color> <!--  화면 배경   -->
     <color name="loading_main">#4F8CFF</color>  <!--  로딩 바 -->
+    <color name="bottom_bar_background">#FFFFFF</color>
+
+    <!-- 아이콘 색상 -->
+    <color name="bottom_bar_icon_selected">#3F51B5</color> <!-- 파란색 강조 -->
+    <color name="bottom_bar_icon_unselected">#888888</color> <!-- 회색 -->
+
+    <!-- 텍스트 색상 -->
+    <color name="bottom_bar_text_selected">#3F51B5</color>
+    <color name="bottom_bar_text_unselected">#888888</color>
+
+    <!-- Toolbar / 기타 색상 (기본 참고용) -->
+    <color name="colorPrimary">#4F46E5</color>
+    <color name="colorSecondary">#06B6D4</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
 </resources>

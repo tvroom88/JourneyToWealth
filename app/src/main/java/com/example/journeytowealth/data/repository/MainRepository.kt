@@ -9,7 +9,7 @@ import com.example.journeytowealth.data.mapper.toSectionUiModel
 import com.example.journeytowealth.data.model.DbData
 import com.example.journeytowealth.data.model.ExcelData
 import com.example.journeytowealth.data.remote.ExcelRemoteDataSource
-import com.example.journeytowealth.ui.state.UiState
+import com.example.journeytowealth.ui.mystock.state.UiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine

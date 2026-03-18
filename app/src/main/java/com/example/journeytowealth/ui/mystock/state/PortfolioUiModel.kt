@@ -1,4 +1,4 @@
-package com.example.journeytowealth.ui.state
+package com.example.journeytowealth.ui.mystock.state
 
 sealed interface PortfolioUi {
     data class AccountType(val name: String) : PortfolioUi

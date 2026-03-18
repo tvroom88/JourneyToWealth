@@ -1,4 +1,4 @@
-package com.example.journeytowealth.ui.checklist
+package com.example.journeytowealth.ui.mystock.checklist
 
 enum class CHECKLISTTYPE {
     ADD,

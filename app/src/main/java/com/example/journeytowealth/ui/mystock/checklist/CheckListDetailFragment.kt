@@ -1,10 +1,9 @@
-package com.example.journeytowealth.ui.checklist
+package com.example.journeytowealth.ui.mystock.checklist
 
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.navArgs
 import com.example.journeytowealth.core.base.BaseFragment
-import com.example.journeytowealth.databinding.FragmentCheckListBinding
 import com.example.journeytowealth.databinding.FragmentCheckListDetailBinding
 
 class CheckListDetailFragment :

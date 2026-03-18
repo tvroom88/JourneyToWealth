@@ -1,4 +1,4 @@
-package com.example.journeytowealth.ui.stock
+package com.example.journeytowealth.ui.mystock.stock
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

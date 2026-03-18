@@ -1,4 +1,4 @@
-package com.example.journeytowealth.ui.stock
+package com.example.journeytowealth.ui.mystock.stock
 
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +13,7 @@ import com.example.journeytowealth.data.local.entity.MarketIndexEntity
 import java.util.Locale
 
 class MarketIndexAdapter :
-    ListAdapter<MarketIndexEntity, MarketIndexAdapter.MarketIndexViewHolder>(DIFF) {
+    androidx.recyclerview.widget.ListAdapter<MarketIndexEntity, MarketIndexAdapter.MarketIndexViewHolder>(DIFF) {
 
     companion object {
         private val DIFF = object : DiffUtil.ItemCallback<MarketIndexEntity>() {

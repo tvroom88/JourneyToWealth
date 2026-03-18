@@ -1,4 +1,4 @@
-package com.example.journeytowealth.ui.state
+package com.example.journeytowealth.ui.mystock.state
 
 sealed class UiState<out T> {
 

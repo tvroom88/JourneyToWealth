@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.journeytowealth.core.result.HttpResult
 import com.example.journeytowealth.core.utils.ExcelParser
 import com.example.journeytowealth.data.repository.MainRepository
-import com.example.journeytowealth.ui.state.LoadingState
+import com.example.journeytowealth.ui.mystock.state.LoadingState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch

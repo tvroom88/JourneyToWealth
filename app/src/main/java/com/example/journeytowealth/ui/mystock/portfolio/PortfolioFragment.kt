@@ -1,4 +1,4 @@
-package com.example.journeytowealth.ui.portfolio
+package com.example.journeytowealth.ui.mystock.portfolio
 
 import android.os.Bundle
 import android.view.View
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.journeytowealth.core.base.BaseFragment
 import com.example.journeytowealth.databinding.FragmentPortfolioBinding
 import com.example.journeytowealth.ui.main.MainViewModel
-import com.example.journeytowealth.ui.state.UiState
+import com.example.journeytowealth.ui.mystock.state.UiState
 
 class PortfolioFragment :
     BaseFragment<FragmentPortfolioBinding>(FragmentPortfolioBinding::inflate) {

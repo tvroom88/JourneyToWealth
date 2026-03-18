@@ -7,9 +7,9 @@ import com.example.journeytowealth.data.local.entity.StockEntity
 import com.example.journeytowealth.data.remote.dto.MarketIndexDto
 import com.example.journeytowealth.data.remote.dto.PortfolioDto
 import com.example.journeytowealth.data.remote.dto.StockDto
-import com.example.journeytowealth.ui.state.PortfolioHeaderUiModel
-import com.example.journeytowealth.ui.state.PortfolioItemUiModel
-import com.example.journeytowealth.ui.state.PortfolioUi
+import com.example.journeytowealth.ui.mystock.state.PortfolioHeaderUiModel
+import com.example.journeytowealth.ui.mystock.state.PortfolioItemUiModel
+import com.example.journeytowealth.ui.mystock.state.PortfolioUi
 
 fun MarketIndexDto.toEntity(): MarketIndexEntity =
     MarketIndexEntity(

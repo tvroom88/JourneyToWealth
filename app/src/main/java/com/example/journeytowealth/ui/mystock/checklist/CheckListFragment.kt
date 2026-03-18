@@ -1,11 +1,10 @@
-package com.example.journeytowealth.ui.checklist
+package com.example.journeytowealth.ui.mystock.checklist
 
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.example.journeytowealth.core.base.BaseFragment
 import com.example.journeytowealth.databinding.FragmentCheckListBinding
-import com.example.journeytowealth.ui.checklist.CHECKLISTTYPE
 
 /**
  * 체크리스트에는 추가 / 수정 / 보기 이렇게 3개로

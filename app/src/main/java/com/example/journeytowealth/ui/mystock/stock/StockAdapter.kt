@@ -1,4 +1,4 @@
-package com.example.journeytowealth.ui.stock
+package com.example.journeytowealth.ui.mystock.stock
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -13,7 +13,7 @@ import com.example.journeytowealth.data.local.entity.StockEntity
 import java.util.Locale
 
 class StockAdapter :
-    ListAdapter<StockEntity, StockAdapter.StockViewHolder>(DIFF) {
+    androidx.recyclerview.widget.ListAdapter<StockEntity, StockAdapter.StockViewHolder>(DIFF) {
 
     companion object {
         private val DIFF = object : DiffUtil.ItemCallback<StockEntity>() {

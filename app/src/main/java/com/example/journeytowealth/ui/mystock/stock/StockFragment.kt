@@ -1,4 +1,4 @@
-package com.example.journeytowealth.ui.stock
+package com.example.journeytowealth.ui.mystock.stock
 
 import android.graphics.Color
 import android.graphics.Typeface
@@ -17,7 +17,7 @@ import com.example.journeytowealth.core.base.main.BaseMainFragment
 import com.example.journeytowealth.databinding.FragmentStockBinding
 import com.example.journeytowealth.databinding.LayoutStockPagerItemBinding
 import com.example.journeytowealth.ui.main.MainViewModel
-import com.example.journeytowealth.ui.state.UiState
+import com.example.journeytowealth.ui.mystock.state.UiState
 import com.google.android.gms.auth.GoogleAuthUtil
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import kotlinx.coroutines.CoroutineScope

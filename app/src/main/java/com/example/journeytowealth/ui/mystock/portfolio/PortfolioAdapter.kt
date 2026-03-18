@@ -1,4 +1,4 @@
-package com.example.journeytowealth.ui.portfolio
+package com.example.journeytowealth.ui.mystock.portfolio
 
 import android.graphics.Color
 import android.util.Log
@@ -10,13 +10,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.journeytowealth.R
-import com.example.journeytowealth.ui.state.PortfolioHeaderUiModel
-import com.example.journeytowealth.ui.state.PortfolioItemUiModel
-import com.example.journeytowealth.ui.state.PortfolioUi
+import com.example.journeytowealth.ui.mystock.state.PortfolioHeaderUiModel
+import com.example.journeytowealth.ui.mystock.state.PortfolioItemUiModel
+import com.example.journeytowealth.ui.mystock.state.PortfolioUi
 import java.util.Locale
 
 class PortfolioAdapter :
-    ListAdapter<PortfolioUi, RecyclerView.ViewHolder>(DIFF) {
+    androidx.recyclerview.widget.ListAdapter<PortfolioUi, RecyclerView.ViewHolder>(DIFF) {
 
     companion object {
         private const val VIEW_TYPE_ACCOUNT = 0

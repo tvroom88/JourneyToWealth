@@ -6,17 +6,17 @@
 
     <fragment
         android:id="@+id/navigation_stock"
-        android:name="com.example.journeytowealth.ui.stock.StockFragment"
+        android:name="com.example.journeytowealth.ui.mystock.stock.StockFragment"
         android:label="Index" />
 
     <fragment
         android:id="@+id/navigation_portfolio"
-        android:name="com.example.journeytowealth.ui.portfolio.PortfolioFragment"
+        android:name="com.example.journeytowealth.ui.mystock.portfolio.PortfolioFragment"
         android:label="PortFolio" />
 
     <fragment
         android:id="@+id/navigation_checklist"
-        android:name="com.example.journeytowealth.ui.checklist.CheckListFragment"
+        android:name="com.example.journeytowealth.ui.mystock.checklist.CheckListFragment"
         android:label="CheckList">
         <action
             android:id="@+id/action_checklist_to_detail"
@@ -27,7 +27,7 @@
 
     <fragment
         android:id="@+id/navigation_checklist_detail"
-        android:name="com.example.journeytowealth.ui.checklist.CheckListDetailFragment"
+        android:name="com.example.journeytowealth.ui.mystock.checklist.CheckListDetailFragment"
         android:label="CheckList Detail">
 
         <argument
@@ -38,7 +38,7 @@
         <argument
             android:name="type"
             android:defaultValue="ADD"
-            app:argType="com.example.journeytowealth.ui.checklist.CHECKLISTTYPE" />
+            app:argType="com.example.journeytowealth.ui.mystock.checklist.CHECKLISTTYPE" />
     </fragment>
 
 

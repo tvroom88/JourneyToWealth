@@ -1,6 +1,7 @@
 package com.example.journeytowealth.ui.main
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -21,6 +22,7 @@ import com.example.journeytowealth.data.local.database.AppDatabase
 import com.example.journeytowealth.data.remote.ExcelRemoteDataSource
 import com.example.journeytowealth.data.repository.MainRepository
 import com.example.journeytowealth.databinding.ActivityMainBinding
+import com.example.journeytowealth.ui.myhabit.HabitActivity
 import com.google.android.gms.auth.GoogleAuthUtil
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -66,6 +68,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val intent = Intent(this, HabitActivity::class.java)
+        startActivity(intent)
 
         setupToolbar() // toolbar 세팅
         setupMainFragmentContainer() // Fragment Container 부분 세팅

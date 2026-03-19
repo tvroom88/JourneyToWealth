@@ -1,6 +1,5 @@
 package com.example.journeytowealth.data.local
 
-import android.util.Log
 import com.example.journeytowealth.core.result.HttpResult
 import com.example.journeytowealth.data.local.dao.PortfolioDao
 import com.example.journeytowealth.data.local.entity.PortfolioEntity
